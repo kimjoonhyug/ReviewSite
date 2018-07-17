@@ -1,6 +1,6 @@
 package com.teamcharm.review;
+import org.springframework.boot.autoconfigure.SpringBootApplication;;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
 @SpringBootApplication
