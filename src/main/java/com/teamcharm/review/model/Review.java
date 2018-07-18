@@ -7,9 +7,11 @@ package com.teamcharm.review.model;
 
 import java.lang.reflect.Member;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 
 /**
@@ -23,19 +25,21 @@ public class Review {
     private long id;
     private String content;
     private int readcount;
+    @ManyToOne
     private Place place;
-    private Member member;
+    @ManyToOne
+    private Member reviewer;
     private int rating;
-    private LocalDateTime date;
+    private LocalDateTime reviewDate;
 
     public Review(long id, String content, int readcount, Place place, Member member, int rating, LocalDateTime date) {
         this.id = id;
         this.content = content;
         this.readcount = readcount;
         this.place = place;
-        this.member = member;
+        this.reviewer = member;
         this.rating = rating;
-        this.date = date;
+        this.reviewDate = date;
     }
     
     public Review(){}
@@ -72,12 +76,12 @@ public class Review {
         this.place = place;
     }
 
-    public Member getMember() {
-        return member;
+    public Member getReviewer() {
+        return reviewer;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setReviewer(Member reviewer) {
+        this.reviewer = reviewer;
     }
 
     public int getRating() {
@@ -88,12 +92,12 @@ public class Review {
         this.rating = rating;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getReviewDate() {
+        return reviewDate;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setReviewDate(LocalDateTime reviewDate) {
+        this.reviewDate = reviewDate;
     }
     
     
