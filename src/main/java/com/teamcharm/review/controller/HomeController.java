@@ -8,7 +8,8 @@ package com.teamcharm.review.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import com.teamcharm.review.model.Member;
+import com.teamcharm.review.model.Place;
 /**
  *
  * @author b003
@@ -23,7 +24,7 @@ public class HomeController {
     }
     
     @PostMapping("/new")
-    public String newReview(Review review){
+    public String newReview(){
         
         return "new";
     }

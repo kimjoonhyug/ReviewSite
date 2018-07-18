@@ -5,17 +5,24 @@
  */
 package com.teamcharm.review.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author b006
  */
+@Entity
 public class Place {
+    @Id
+    @GeneratedValue
+    private long id;
     private long phone;
     private String website;
     private String Address;
-    private long id;
-
-    public Place(long phone, String website, String Address, long id) {
+   
+    public Place(long id, long phone, String website, String Address) {
         this.phone = phone;
         this.website = website;
         this.Address = Address;

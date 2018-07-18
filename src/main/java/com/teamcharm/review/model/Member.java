@@ -5,15 +5,23 @@
  */
 package com.teamcharm.review.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author b006
  */
+@Entity
 public class Member {
+    @Id
+    @GeneratedValue
+    private long id;
     private String name;
     private String pass;
     private String email;
-    private long id;
+    
 
     public String getName() {
         return name;
@@ -47,7 +55,7 @@ public class Member {
         this.id = id;
     }
 
-    public Member(String name, String pass, String email, long id) {
+    public Member(long id, String name, String pass, String email) {
         this.name = name;
         this.pass = pass;
         this.email = email;

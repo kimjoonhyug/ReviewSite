@@ -5,13 +5,21 @@
  */
 package com.teamcharm.review.model;
 
+import java.lang.reflect.Member;
 import java.time.LocalDateTime;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 
 /**
  *
  * @author b003
  */
+@Entity
 public class Review {
+    @Id
+    @GeneratedValue
     private long id;
     private String content;
     private int readcount;
