@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +23,9 @@ public class MemberService implements UserDetailsService {
     
     @Autowired
     MemberRepository memberRepository;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
@@ -33,6 +37,11 @@ public class MemberService implements UserDetailsService {
     
     public Member findByUsername(String name) {
         return memberRepository.findByUsername(name);
+    }
+    
+    public Member saveMember(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        return memberRepository.save(member);
     }
     
 }
