@@ -5,7 +5,6 @@
  */
 package com.teamcharm.review.model;
 
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +24,13 @@ public class Review {
     private long id;
     private String content;
     private int readcount;
+    
     @ManyToOne
     private Place place;
+    
     @ManyToOne
     private Member reviewer;
+    
     private int rating;
     private LocalDateTime reviewDate;
 
