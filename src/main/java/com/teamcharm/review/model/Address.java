@@ -5,6 +5,10 @@
  */
 package com.teamcharm.review.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author b003
@@ -12,6 +16,7 @@ package com.teamcharm.review.model;
 @Entity
 public class Address {
     @Id
+    @GeneratedValue
     private long id;
     private String sido;
     private String sigungu;
