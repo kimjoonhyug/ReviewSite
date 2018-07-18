@@ -5,10 +5,44 @@
  */
 package com.teamcharm.review.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 /**
  *
  * @author b003
  */
+@Controller
 public class HomeController {
     
+    @GetMapping("/home")
+    public String home(Member member){
+        
+        return "home";
+    }
+    
+    @PostMapping("/new")
+    public String newReview(Review review){
+        
+        return "new";
+    }
+    
+    @PostMapping("/register")
+    public String register(){
+        
+        return "register";
+    }
+    
+    @PostMapping("/store")
+    public String store(Place place){
+        
+        return "store";
+    }
+    
+    @PostMapping("/login")
+    public String login(Member member){
+        
+        return "login";
+    }
 }
