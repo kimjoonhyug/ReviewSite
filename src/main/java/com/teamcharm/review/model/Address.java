@@ -9,7 +9,10 @@ package com.teamcharm.review.model;
  *
  * @author b003
  */
+@Entity
 public class Address {
+    @Id
+    private long id;
     private String sido;
     private String sigungu;
     private String doro;

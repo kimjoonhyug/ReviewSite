@@ -11,7 +11,9 @@ import java.time.LocalDateTime;
  *
  * @author b003
  */
+@Entity
 public class Review {
+    @Id
     private long id;
     private String content;
     private int readcount;
