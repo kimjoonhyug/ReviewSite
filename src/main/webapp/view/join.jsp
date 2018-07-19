@@ -42,7 +42,7 @@
         </head>
         <body>
             <div>
-                <img src="images/logo.png" width="150" height="100">
+                <img src="resources/images/logo.png" width="150" height="100">
             </div>
             <div id="registerForm">
                 
