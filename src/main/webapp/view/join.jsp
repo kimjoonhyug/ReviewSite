@@ -15,34 +15,68 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
             <style>
-                #register{
+                #registerForm{
+                    width:500px;
+                    margin:auto;
+                    background:#DDF;
+                    border:1px solid #99F;
+                }
+                table{
                     width:500px;
                     margin:auto;
                 }
-                
+                td{
+                    text-align:center;
+                    padding:20px 0px;
+                }
+                input{
+                    background:#EEF;
+                    width:200px;
+                    height:30px;
+                }
+                .commandButton{
+                    width:80;
+                    height:20;
+                }
             </style>
         </head>
         <body>
-            <div id="register">
-            <form action="/register" method="post">
+            <div>
+                <img src="images/logo.png" width="150" height="100">
+            </div>
+            <div id="registerForm">
+                
+            <form action="/register" method="post" id="reg">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <table>
                     <tr>
-                        <td><label for="username">아이디</label></td>
-                        <td><input type="text" name="username" id="username" required/></td>
+                        <td style="background:#EEF; width:100px;"><h1 style="text-align:center;">회원 가입</h1></td>
                     </tr>
                     <tr>
-                        <td><label for="email">이메일</label></td>
-                        <td><input type="email" name="email" id="email"/></td>
+                        <td>
+                            <input type="text" name="username" id="username" placeholder="아이디" required/>
+                        </td>
                     </tr>
                     <tr>
-                        <td><label for="password">비밀번호</label></td>
-                        <td><input type="password" name="password" id="password" required/></td>
+                        <td>
+                            <input type="email" name="email" id="email" placeholder="이메일" required/>
+                        </td>
                     </tr>
                     <tr>
-                        <td colsapn="2" style="display:block; margin:auto;">
-                            <input type="submit" value="회원가입">&nbsp;&nbsp;
-                            <input type="reset" value="취소">
+                        <td>
+                            <input type="password" name="password" id="password" placeholder="비밀번호" required/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="password" name="password2" id="password2" placeholder="비밀번호확인" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center">
+                            <button onclick="javascript:document.reg.submit()" 
+                                    style="width:200px; height:50px; background:#F88;">가입하기</button><br><br>
+                            이미 아이디가 있습니까? <a href="javascript:history.back()">돌아가기</a>
                         </td>
                     </tr>
                 </table>
