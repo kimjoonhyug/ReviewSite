@@ -52,7 +52,7 @@ public class HomeController {
     @PostMapping("/register")
     public String register(Member member){
         memberRepository.save(member);
-        return "join";
+        return "redirect:/login";
     }
     
     @GetMapping("/place/{id}")

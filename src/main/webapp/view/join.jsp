@@ -6,9 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@taglib prefix="f" uri="http://java.sun.com/jsf/core"%>
-<%@taglib prefix="h" uri="http://java.sun.com/jsf/html"%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -17,9 +14,18 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
+            <style>
+                #register{
+                    width:500px;
+                    margin:auto;
+                }
+                
+            </style>
         </head>
         <body>
+            <div id="register">
             <form action="/register" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <table>
                     <tr>
                         <td><label for="username">아이디</label></td>
@@ -33,8 +39,15 @@
                         <td><label for="password">비밀번호</label></td>
                         <td><input type="password" name="password" id="password" required/></td>
                     </tr>
+                    <tr>
+                        <td colsapn="2" style="display:block; margin:auto;">
+                            <input type="submit" value="회원가입">&nbsp;&nbsp;
+                            <input type="reset" value="취소">
+                        </td>
+                    </tr>
                 </table>
             </form>
+            </div>
         </body>
     </html>
 </f:view>
