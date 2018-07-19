@@ -31,7 +31,8 @@ public class HomeController {
     @Autowired
     PlaceRepository placeRepository;
     
-    @GetMapping("/home")
+    
+    @GetMapping(value = {"/home","/"})
     public String home(Member member){
         
         return "home";
