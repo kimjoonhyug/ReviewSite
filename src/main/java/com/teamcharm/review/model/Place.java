@@ -24,18 +24,17 @@ public class Place {
     private String name;
     private long phone;
     private String website;
-    private String Address;
+    private Address address;
     private Type type;
     private String hours;
     
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
     List<PlaceImage> images;
    
-    public Place(long id, String name, long phone, String website, String Address) {
+    public Place(long id, String name, long phone, String website) {
         this.name = name;
         this.phone = phone;
         this.website = website;
-        this.Address = Address;
         this.id = id;
     }
     
@@ -57,12 +56,12 @@ public class Place {
         this.website = website;
     }
 
-    public String getAddress() {
-        return Address;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddress(String Address) {
-        this.Address = Address;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public long getId() {
