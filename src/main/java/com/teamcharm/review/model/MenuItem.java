@@ -8,6 +8,7 @@ package com.teamcharm.review.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,6 +22,8 @@ public class MenuItem {
     private String name;
     private int price;
     private Image image;
+    @ManyToOne
+    private Menu menu;
 
     public MenuItem(long id, String name, int price, Image image) {
         this.id = id;
