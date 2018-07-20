@@ -14,8 +14,16 @@ import com.teamcharm.review.model.Review;
 import com.teamcharm.review.repository.MemberRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import com.teamcharm.review.repository.ReviewRepository;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 /**
@@ -31,6 +39,9 @@ public class HomeController {
     @Autowired
     PlaceRepository placeRepository;
     
+    
+    @Value("${place.image.save-location-path}")
+    private String saveLocationPath;
     
     @GetMapping(value = {"/home","/"})
     public String home(Member member){
@@ -72,5 +83,25 @@ public class HomeController {
     public String place(Place place){
         placeRepository.save(place);
         return "place";
+    }
+    
+    @GetMapping("{id}/images/{fileName}")
+    public ResponseEntity<byte[]> findFile(@PathVariable String fileName,
+            @PathVariable long placeId) throws FileNotFoundException {
+        String path = makePath(placeId) + fileName;
+        try {
+            return ResponseEntity.ok(Files.readAllBytes(Paths.get(path)));
+        } catch (IOException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    private String makePath(long placeId) {
+        StringBuilder sb = new StringBuilder(saveLocationPath);
+        sb.append("\\");
+        sb.append(placeId);
+        sb.append("\\images\\");
+        return sb.toString();
     }
 }

@@ -5,9 +5,12 @@
  */
 package com.teamcharm.review.model;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -21,6 +24,9 @@ public class Place {
     private long phone;
     private String website;
     private String Address;
+    
+    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+    List<Image> images;
    
     public Place(long id, long phone, String website, String Address) {
         this.phone = phone;
@@ -28,6 +34,8 @@ public class Place {
         this.Address = Address;
         this.id = id;
     }
+    
+    public Place(){}
 
     public long getPhone() {
         return phone;
@@ -60,8 +68,20 @@ public class Place {
     public void setId(long id) {
         this.id = id;
     }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
     
-    public Place(){}
+    
+    
+    
+    
+    
     
     public enum Type {마트,편의점,백화점,음식점,카페,주유소}
    
