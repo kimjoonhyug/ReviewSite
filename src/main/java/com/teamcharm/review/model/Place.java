@@ -21,6 +21,7 @@ public class Place {
     @Id
     @GeneratedValue
     private long id;
+    private String name;
     private long phone;
     private String website;
     private String Address;
@@ -28,7 +29,8 @@ public class Place {
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
     List<Image> images;
    
-    public Place(long id, long phone, String website, String Address) {
+    public Place(long id, String name, long phone, String website, String Address) {
+        this.name = name;
         this.phone = phone;
         this.website = website;
         this.Address = Address;
@@ -76,6 +78,16 @@ public class Place {
     public void setImages(List<Image> images) {
         this.images = images;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
     
     
     
