@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.teamcharm.review.model.Member;
 import com.teamcharm.review.model.Place;
+import com.teamcharm.review.model.PlaceImage;
 import com.teamcharm.review.model.Review;
 import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
@@ -94,21 +95,11 @@ public class HomeController {
     
     @PostMapping("/place")
     public String place(Place place){
-        placeRepository.save(place);
+        //TODO save place
         return "place";
     }
     
-    @GetMapping("{id}/images/{fileName}")
-    public ResponseEntity<byte[]> findFile(@PathVariable String fileName,
-            @PathVariable long placeId) throws FileNotFoundException {
-        String path = makePath(placeId) + fileName;
-        try {
-            return ResponseEntity.ok(Files.readAllBytes(Paths.get(path)));
-        } catch (IOException ex) {
-            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-            return ResponseEntity.notFound().build();
-        }
-    }
+    
     
     private String makePath(long placeId) {
         StringBuilder sb = new StringBuilder(saveLocationPath);
@@ -118,46 +109,5 @@ public class HomeController {
         return sb.toString();
     }
     
-    @PostMapping("{id}/images")
-    public ResponseEntity newImage(@PathVariable long id, 
-            @RequestParam List<MultipartFile> files ){
-        
-        if(files== null)
-            return ResponseEntity.noContent().build();
-        
-        for (MultipartFile file : files) {
-            if(!file.getContentType().contains("image"))
-                return ResponseEntity.badRequest().body("Not an Image");
-        }
-        
-        Optional<Place> placeOptional = placeRepository.findById(id);
-        if(!placeOptional.isPresent())
-            return ResponseEntity.notFound().build();
-        Place place = placeOptional.get();
-        
-        if(place.getImages() ==null)
-            place.setImages(new ArrayList<>());
-        
-        List<Image> images = place.getImages();
-                
-        String path = makePath(id);
-        File directory = (new File(path));
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        
-        files.forEach((file) -> {
-            try {
-                file.transferTo(new File(path + file.getOriginalFilename()));
-                Image image = new Image(file.getOriginalFilename());
-                image.setPlace(place);
-                images.add(imageRepository.save(image));
-            } catch (IOException | IllegalStateException ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        place.setImages(images);
-        
-        return ResponseEntity.accepted().build();
-    }
+    
 }

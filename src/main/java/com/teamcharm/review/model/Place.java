@@ -25,9 +25,11 @@ public class Place {
     private long phone;
     private String website;
     private String Address;
+    private Type type;
+    private String hours;
     
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
-    List<Image> images;
+    List<PlaceImage> images;
    
     public Place(long id, String name, long phone, String website, String Address) {
         this.name = name;
@@ -71,11 +73,11 @@ public class Place {
         this.id = id;
     }
 
-    public List<Image> getImages() {
+    public List<PlaceImage> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<PlaceImage> images) {
         this.images = images;
     }
 
@@ -86,6 +88,22 @@ public class Place {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
     
     
     
@@ -95,7 +113,15 @@ public class Place {
     
     
     
-    public enum Type {마트,편의점,백화점,음식점,카페,주유소}
+    
+    
+    
+    
+    public enum Type {
+        
+        한식,피자, 양식, 중국식, 치킨,
+        족발,보쌈, 일식, 야식, 분식,프랜차이즈,디저트
+    }
    
     
 }

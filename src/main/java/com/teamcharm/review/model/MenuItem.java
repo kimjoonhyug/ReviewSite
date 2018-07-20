@@ -21,11 +21,14 @@ public class MenuItem {
     private long id;
     private String name;
     private int price;
-    private Image image;
+    
+    
+    private MenuImage image;
+    
     @ManyToOne
     private Menu menu;
 
-    public MenuItem(long id, String name, int price, Image image) {
+    public MenuItem(long id, String name, int price, MenuImage image) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -62,7 +65,7 @@ public class MenuItem {
         return image;
     }
 
-    public void setImage(Image image) {
+    public void setImage(MenuImage image) {
         this.image = image;
     }
     

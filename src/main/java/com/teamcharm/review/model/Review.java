@@ -6,10 +6,13 @@
 package com.teamcharm.review.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -32,6 +35,9 @@ public class Review {
     
     private int rating;
     private LocalDateTime reviewDate;
+    
+    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    List<ReviewImage> images;
 
     public Review(long id, String content, int readcount, Place place, Member member, int rating, LocalDateTime date) {
         this.id = id;
@@ -100,6 +106,16 @@ public class Review {
     public void setReviewDate(LocalDateTime reviewDate) {
         this.reviewDate = reviewDate;
     }
+
+    public List<ReviewImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ReviewImage> images) {
+        this.images = images;
+    }
+    
+    
     
     
 }
