@@ -1,6 +1,6 @@
 <%-- 
-    Document   : newjsf
-    Created on : 2018. 7. 19, 오후 1:43:38
+    Document   : home
+    Created on : 2018. 7. 20, 오전 10:49:44
     Author     : b003
 --%>
 
@@ -16,9 +16,7 @@
             <title>JSP Page</title>
         </head>
         <body>
-            <form action="newReview" method="post">
-                
-            </form>
+            
         </body>
     </html>
 </f:view>
