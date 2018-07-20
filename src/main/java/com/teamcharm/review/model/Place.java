@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -24,6 +25,8 @@ public class Place {
     private String name;
     private long phone;
     private String website;
+    
+    @OneToOne
     private Address address;
     private Type type;
     private String hours;
