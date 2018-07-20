@@ -9,6 +9,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Menu {
     @Id
     @GeneratedValue
     private long id;
+    @OneToMany(mappedBy = "menu")
     private List<MenuItem> items;
 
     public Menu(long id, List<MenuItem> list) {
