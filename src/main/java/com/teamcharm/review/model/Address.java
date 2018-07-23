@@ -20,6 +20,7 @@ public class Address {
     private long id;
     private String sido;
     private String sigungu;
+    private String dong;
     private String doro;
     private String detail;
     
@@ -71,4 +72,14 @@ public class Address {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+    public String getDong() {
+        return dong;
+    }
+
+    public void setDong(String dong) {
+        this.dong = dong;
+    }
+    
+    
 }

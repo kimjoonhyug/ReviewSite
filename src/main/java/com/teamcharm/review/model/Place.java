@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -26,6 +27,11 @@ public class Place {
     private long phone;
     private String website;
     
+    private double rating;
+    
+    @ManyToOne
+    private Menu menu;
+    
     @OneToOne
     private Address address;
     private Type type;
@@ -33,7 +39,10 @@ public class Place {
     
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
     List<PlaceImage> images;
-   
+    
+    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+    List<Review> reviews;
+    
     public Place(long id, String name, long phone, String website) {
         this.name = name;
         this.phone = phone;
@@ -106,6 +115,28 @@ public class Place {
     public void setHours(String hours) {
         this.hours = hours;
     }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+    
+    public void updateRating() {
+        rating = reviews.stream().mapToDouble(review -> review.getRating()).average().orElse(0);
+    }
+    
+    
     
     
     

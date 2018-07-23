@@ -75,6 +75,12 @@ public class HomeController {
         return "join";
     }
     
+    @GetMapping("/map")
+    public String map() {
+        return "map";
+    }
+
+    
     @PostMapping("/register")
     public String register(Member member){
         memberRepository.save(member);
