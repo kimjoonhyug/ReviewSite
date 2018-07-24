@@ -135,8 +135,14 @@ public class Place {
     public void updateRating() {
         rating = reviews.stream().mapToDouble(review -> review.getRating()).average().orElse(0);
     }
-    
-    
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
     
     
     

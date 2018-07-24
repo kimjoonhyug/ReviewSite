@@ -18,6 +18,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,6 +67,10 @@ public class PlaceService {
         placeRepository.save(place);
         
         return ResponseEntity.accepted().build();
+    }
+    
+    public Page<Place> generalSearch(String search, Pageable page) {
+        return placeRepository.findAllByAddressDongContainingIgnoreCaseOrAddressSidoContainingIgnoreCaseOrAddressSigunguContainingIgnoreCaseOrNameContaining( search,search,search,search, page);
     }
     
 }
