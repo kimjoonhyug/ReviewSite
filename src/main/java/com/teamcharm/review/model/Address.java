@@ -5,6 +5,7 @@
  */
 package com.teamcharm.review.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ public class Address {
     private String dong;
     private String doro;
     private String detail;
+    private String full;
     
     public Address(){}
 
@@ -79,6 +81,32 @@ public class Address {
 
     public void setDong(String dong) {
         this.dong = dong;
+    }
+    
+    public String getFull() {
+        if(full == null)
+            return makeFull();
+        return full;
+        
+    }
+
+    public void setFull(String full) {
+        this.full = full;
+    }
+    
+    private String makeFull() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(sido);
+        sb.append(" ");
+        sb.append(sigungu);
+        sb.append(" ");
+        sb.append(dong);
+        sb.append(" ");
+        sb.append(doro);
+        sb.append(" ");
+        sb.append(detail);
+        sb.append(" ");
+        return sb.toString();
     }
     
     

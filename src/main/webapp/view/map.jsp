@@ -19,7 +19,7 @@
     <body>
         <div id="map" style="width:100%;height:350px;"></div>
         <div id="address"></div>
-
+        <div id="results"></div>
         <button onclick="searchByMap()">Search Map</button>
 
     </body>

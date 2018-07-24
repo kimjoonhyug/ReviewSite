@@ -1,4 +1,6 @@
-var MapSearch = {};
+var MapSearch = {
+    RESULTS_ID: "results"
+};
 
 
 
@@ -128,17 +130,48 @@ function Address(city, gun, dong, road, code) {
 
 function getResultsFromDong(dong) {
     $.ajax({
-        url:"/search/map",
-        type:"get",
+        url: "/search/map",
+        type: "get",
         async: true,
-        data:{
-            dong:dong
+        data: {
+            dong: dong
         },
-        success: function(response){
-          console.log(response);  
+        success: function (response) {
+            parseResponse(response);
         }
-        
+
     });
+}
+
+function parseResponse(response) {
+    var json = response;
+    var places = json.content;
+    MapSearch.currentPage = json.number;
+    MapSearch.totalPages = json.totalPages;
+    addResultsToPage(places);
+}
+
+function addResultsToPage(places) {
+    $('#results').empty();
+    $.each(places, function (i, place) {
+        $result =  $("<div></div>", {id: 'result'+1, class: 'result', click: function () {
+                window.open("/place/"+place.id);
+            }
+        });
+        
+        $result.append($("<div>"+ place.name + "</div>", {
+             class: 'result-name'}));
+        $result.append($("<div>"+ place.phone + "</div>", {
+            id: 'result'+1, class: 'result-phone'}));
+        $result.append($("<div>"+ place.address.full + "</div>", {
+            id: 'result'+1, class: 'result-address'}));
+        $result.append($("<div>"+ place.hours + "</div>", {
+            id: 'result'+1, class: 'result-hours'}));
+        $('#results').append($result);
+    });
+    
+    
+    
 }
 
 
