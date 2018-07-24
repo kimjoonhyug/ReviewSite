@@ -14,68 +14,31 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
-            <style>
-                #registerForm{
-                    width:500px;
-                    margin:auto;
-                    background:#DDF;
-                    border:1px solid #99F;
+            <link rel="stylesheet" type="text/css" href="resources/css/review.css"/>
+            <script>
+                function passwordCheck(){
+                    var pw = document.regform.password.value;
+                    var pwCheck = document.regform.password2.value;
+                    if(pw.length < 6 || pw.length > 16){
+                        $('#pw1').value = $('#pw2').value = '';
+                        $('#pw1span').html = '비밀번호는 6자리 이상 16자리 이하만 사용가능 합니다.';
+                        break;
+                    }
+                    if($('#pw1').value !== '' && $('#pw2').value !== ''){
+                        if($('#pw1').value !== $('#pw2').value){
+                            $('#pw2span').html = '비밀번호가 일치하지 않습니다.';
+                            break;
+                        }else{
+                            regform.submit();
+                        }
+                    }
                 }
-                #formtable{
-                    width:500px;
-                    margin:auto;
-                }
-                td{
-                    text-align:center;
-                    padding:20px 0px;
-                }
-                .forminput{
-                    background:#EEF;
-                    width:200px;
-                    height:30px;
-                    
-                }
-                .commandButton{
-                    width:80;
-                    height:20;
-                }
-                #top{
-                    width:100%;
-                    height:110px;
-                }
-                #searchinput{
-                    width:450px;
-                    height:30px;
-                }
-            </style>
+            </script>
         </head>
         <body>
-            <div id="top">
-                <table>
-                    <tr>
-                        <td>
-                            <img src="resources/images/logo.png" width="300" height="80">
-                        </td>
-                        <td style="padding-left:28px;">
-                            <select name="kind">
-                                <option>이름</option>
-                                <option>카테고리</option>
-                            </select>
-                            <input type="text" name="search" id="searchinput" placeholder="장소검색"/>
-                            <button style="height:30px;">검색</button>
-                        </td>
-                        <td style="padding-left: 30px;">
-                            <button style="width:100px; height:50px; background:#9ACD32">지도로 찾기</button>
-                        </td>
-                        <td style="padding-left:20px;">
-                            name 님 환영합니다. <a href="#">정보 보기</a>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <hr>
+            <jsp:include page="header.jsp"/>
             <div id="registerForm">
-            <form action="/register" method="post" id="reg">
+            <form action="/register" method="post" name="regform">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <table id="formtable">
                     <tr>
@@ -85,27 +48,31 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="username" class="forminput" placeholder="아이디" required/>
+                            <input type="text" name="username" class="forminput" placeholder=" 아이디" required/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="email" name="email" class="forminput" placeholder="이메일" required/>
+                            <input type="email" name="email" class="forminput" placeholder=" 이메일" required/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="password" name="password" class="forminput" placeholder="비밀번호" required/>
+                            <input type="password" name="password" class="forminput" 
+                                   id="pw1" placeholder=" 6자리 이상 16자리 이하의 비밀번호" required/><br>
+                            <span id="pw1span"></span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input type="password" name="password2" class="forminput" placeholder="비밀번호확인" required>
+                            <input type="password" name="password2" class="forminput"
+                                   id="pw2" placeholder=" 비밀번호확인" required/><br>
+                            <span id="pw2span"></span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: center">
-                            <button onclick="javascript:document.reg.submit()" 
+                            <button onclick="javascript:passwordCheck();" 
                                     style="width:200px; height:50px; background:#F88;">가입하기</button><br><br>
                             이미 아이디가 있습니까? <a href="javascript:history.back()">돌아가기</a>
                         </td>
