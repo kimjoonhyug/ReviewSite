@@ -105,7 +105,10 @@ public class HomeController {
         return "place";
     }
     
-    
+    @GetMapping("/kind/{type}")
+    public String kind(Place place){
+        return "kind";
+    }
     
     private String makePath(long placeId) {
         StringBuilder sb = new StringBuilder(saveLocationPath);
