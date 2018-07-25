@@ -36,7 +36,6 @@
             </script>
         </head>
         <body>
-            <jsp:include page="header.jsp"/>
             <div id="registerForm">
             <form action="/register" method="post" name="regform">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
