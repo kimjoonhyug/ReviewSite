@@ -15,31 +15,13 @@ and open the template in the editor.
 a{
     text-decoration: none;
 }
-#top{
-    width:100%;
-
-}
-input{
-    width:300px;
-}
-#top li{
-    padding-left:35px;
+#category li{
+    padding:0 20px;
 }
 #search {
     width:350px;
 }
-.nav-item a:hover{
-    background:wheat;
-}
-#category{
-    width:1200px;
-    margin:auto;
-    background:beige;
-}
-#category li{
-    padding-left:60px;
-    text-align:center;
-}
+
 #recommend{
     width:1100px;
     margin:auto;
