@@ -22,63 +22,123 @@
         </head>
         <body>
             <div id="top">
-                <nav class='navbar navbar-expand-lg navbar-light' style='background:#FFF'>
-
-                    <a href='/home' style="padding-left:90px;">
-                        <img class='navbar-brand' src="resources/images/logo.png" width="260" height="70">
+                <nav class='navbar navbar-expand-lg justify-content-center'>
+                    <a href='/home'>
+                        <img class='navbar-brand' src="resources/images/logo.png" width="250" height="70">
                     </a>
                     <ul class='navbar-nav'>
                         <form class="form-inline">
                             <input class="form-control mr-sm-2" type="search" placeholder="주소를 입력하세요." aria-label="Search" id='search'>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">검색</button>
                         </form>
-                        <li class='nav-item'>
+                        <li class='nav-item' style='padding-left:40px;'>
                             <button type="button" class="btn btn-primary">지도로 찾기</button>
                         </li>
-                        <li class='nav-item'>
-                            <span class="navbar-text">name님 환영합니다.</span>
-                            <a href="#" class="badge badge-light">정보보기</a>
-                            <a href="#" class="badge badge-light">로그아웃</a>
+                        <li class='nav-item' style='padding-left:30px;'>
+                            <%boolean isLogin = session.getAttribute("userid") != null;%>
+                            <%if(!isLogin){%>
+                                <button type="button" class="btn" data-toggle="modal"data-target="#loginModal">
+                                    로그인
+                                </button>
+                                <button type="button" class="btn" data-toggle="modal"data-target="#joinModal">
+                                    회원가입
+                                </button>
+
+                                <div class="modal fade" id="loginModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Login</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        &times;
+                                                    </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/login" method="post" name="loginForm">
+                                                    <input type="text" name="username" class="form-control mb-2" placeholder=" 아이디" required/>
+                                                    <input type="password" name="password" class="form-control" placeholder=" 비밀번호" required/>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-success" onclick="javascript:loginForm.submit()">로그인</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal fade" id="joinModal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">회원가입</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        &times;
+                                                    </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/register" method="post" name="regform">
+                                                   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                   <input type="text" name="username" class="form-control mb-2" placeholder=" 아이디" required autocomplete="off"/>
+                                                   <input type="email" name="email" class="form-control mb-2" placeholder=" 이메일" required autocomplete="off"/>
+                                                   <input type="password" name="password" class="form-control mb-2" id="pw1" placeholder=" 6자리 이상 16자리 이하의 비밀번호" required/>
+                                                   <input type="password" name="password2" class="form-control" id="pw2" placeholder=" 비밀번호확인" required/>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-success" onclick="javascript:regform.submit()">가입하기</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <%}else{%>
+                            <span>${session.getAttribute("userid")}님 환영합니다.</span>
+                                <a href="#" class="badge badge-light">정보수정</a>
+                                <a href="#" class="badge badge-light">로그아웃</a>
+                            <%}%>
                         </li>
                     </ul>
 
                 </nav>
-                <nav class='navbar navbar-expand-lg navbar-light'>
-                    <div id="category">
-                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="korean">한식<span class="sr-only">(current)</span></a>
+                <nav class='navbar navbar-expand-sm bg-light navbar-light justify-content-center' style="width:90%; margin:auto;">
+                    <ul class="navbar-nav" id='category'>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">한식<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="chineses">중식<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">피자<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="japanese">일식<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">양식<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="western">양식<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">중식<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="fastfood">패스트푸드<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">치킨<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="bunsik">분식<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">족발·보쌈<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="bakery">베이커리<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">일식<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="cafeBar">카페/주점<span class="sr-only">(current)</span></a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">야식<span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" id="other">기타/세계<span class="sr-only">(current)</span></a>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">분식<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">프렌차이즈<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">디저트<span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
-                    </div>
                 </nav>
-            </div>
-            <div>
-                <nav></nav>
             </div>
         </body>
     </html>
