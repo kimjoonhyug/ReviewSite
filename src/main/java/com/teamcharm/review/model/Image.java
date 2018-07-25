@@ -38,19 +38,19 @@ public class Image implements Serializable {
     }
     
     
-    public final long getId() {
+    public long getId() {
         return id;
     }
 
-    public final void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public final String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public final void setLocation(String location) {
+    public void setLocation(String location) {
         this.location = location;
     }
     

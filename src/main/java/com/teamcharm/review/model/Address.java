@@ -24,7 +24,7 @@ public class Address {
     private String dong;
     private String doro;
     private String detail;
-    private String full;
+    private String fullAddress;
     
     public Address(){}
 
@@ -83,15 +83,15 @@ public class Address {
         this.dong = dong;
     }
     
-    public String getFull() {
-        if(full == null)
+    public String getFullAddress() {
+        if(fullAddress == null)
             return makeFull();
-        return full;
+        return fullAddress;
         
     }
 
-    public void setFull(String full) {
-        this.full = full;
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
     
     private String makeFull() {
@@ -108,6 +108,8 @@ public class Address {
         sb.append(" ");
         return sb.toString();
     }
+    
+    
     
     
 }

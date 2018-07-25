@@ -5,7 +5,12 @@
  */
 package com.teamcharm.review.model;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
+import static java.util.function.IntUnaryOperator.identity;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,10 +29,14 @@ public class Place {
     @GeneratedValue
     private long id;
     private String name;
-    private long phone;
+    private BigInteger phone;
     private String website;
     
+    @OneToOne
+    private Image logo;
+    
     private double rating;
+    private double lat, lng;
     
     @ManyToOne
     private Menu menu;
@@ -43,7 +52,7 @@ public class Place {
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
     List<Review> reviews;
     
-    public Place(long id, String name, long phone, String website) {
+    public Place(long id, String name, BigInteger phone, String website) {
         this.name = name;
         this.phone = phone;
         this.website = website;
@@ -52,11 +61,11 @@ public class Place {
     
     public Place(){}
 
-    public long getPhone() {
+    public BigInteger getPhone() {
         return phone;
     }
 
-    public void setPhone(long phone) {
+    public void setPhone(BigInteger phone) {
         this.phone = phone;
     }
 
@@ -143,6 +152,34 @@ public class Place {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    public Image getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Image logo) {
+        this.logo = logo;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+    
+    
+    
+    
     
     
     
@@ -158,8 +195,18 @@ public class Place {
     
     public enum Type {
         
-        한식,피자, 양식, 중국식, 치킨,
-        족발,보쌈, 일식, 야식, 분식,프랜차이즈,디저트
+        한식,피자, 양식, 중식, 치킨,
+        족발보쌈, 일식, 야식, 분식,프랜차이즈,디저트,일식돈까스,피자양식;
+        
+         private static final Map<String,Type> ENUM_MAP;
+        
+        static {
+            ENUM_MAP = Stream.of(Type.values()).collect(Collectors.toMap(Type::toString, type -> type));
+        }
+        
+        public static Type get(String type) {
+            return ENUM_MAP.get(type);
+        }
     }
    
     
