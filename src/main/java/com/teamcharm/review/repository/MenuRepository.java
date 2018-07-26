@@ -6,6 +6,7 @@
 package com.teamcharm.review.repository;
 
 import com.teamcharm.review.model.Menu;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**

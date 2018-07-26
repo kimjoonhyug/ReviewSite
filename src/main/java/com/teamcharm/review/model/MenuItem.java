@@ -5,6 +5,7 @@
  */
 package com.teamcharm.review.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -29,6 +30,7 @@ public class MenuItem {
     @OneToOne
     private MenuImage image;
     
+    @JsonIgnore
     @ManyToOne
     private Menu menu;
 

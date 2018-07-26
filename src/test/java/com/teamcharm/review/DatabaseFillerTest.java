@@ -6,19 +6,17 @@
 package com.teamcharm.review;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.teamcharm.review.model.Menu;
 import com.teamcharm.review.repository.MenuItemRepository;
 import com.teamcharm.review.repository.MenuRepository;
 import com.teamcharm.review.repository.PlaceRepository;
-import java.io.File;
+import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -27,7 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase()
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class DatabaseFillerTest {
 
     @Autowired
@@ -40,7 +38,6 @@ public class DatabaseFillerTest {
     MenuRepository menuRepository;
     @Autowired
     MenuItemRepository menuItemRepository;
-    private ObjectMapper objectMapper;
 
     public DatabaseFillerTest() {
     }
@@ -50,13 +47,13 @@ public class DatabaseFillerTest {
      */
     @Test
     public void testFill() throws Exception {
-        objectMapper = new ObjectMapper();
 
         filler.fill();
         System.out.println(placeRepository.count());
         System.out.println(menuRepository.count());
         System.out.println(menuItemRepository.count());
         Assertions.assertThat(placeRepository.count() > 50).isTrue();
+        
 
     }
 

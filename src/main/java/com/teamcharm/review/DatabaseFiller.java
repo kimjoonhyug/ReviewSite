@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.transaction.Transactional;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -91,6 +92,11 @@ public class DatabaseFiller {
         httpClient = new OkHttpClient();
         objectMapper = new ObjectMapper();
     }
+    
+    public void run() {
+        if(placeRepository.count() < 100)
+            fill();
+    }
 
     public void fill() {
         zipFiles.forEach((zipFile) -> {
@@ -150,32 +156,38 @@ public class DatabaseFiller {
         }
     }
 
+    @Transactional
     private void parseResponse(String responseFromZipCode) throws IOException {
         JsonNode root = objectMapper.readTree(responseFromZipCode);
-        Place place;
         for (JsonNode node : root.get("restaurants")) {
-            place = new Place();
-            place.setPhone(new BigInteger(node.get("phone").textValue()));
-            place.setType(Place.Type.get(node.get("categories").get(0).textValue()));
-            Image image = new Image();
-            image.setLocation(infoDomain + node.get("logo_url").textValue());
-            image = imageRepository.save(image);
-            place.setLogo(image);
-            place.setName(node.get("name").textValue());
-            place.setHours(node.get("open_time_description").textValue());
-            place.setId(node.get("id").asLong());
-            Address address = parseAddress(node.get("address").textValue());
-            address = addressRepository.save(address);
-            place.setAddress(address);
-            place.setRating(node.get("review_avg").asDouble());
-            place.setLat(node.get("lat").asDouble());
-            place.setLng(node.get("lng").asDouble());
-            if (node.has("franchise_name")) {
-                place.setFranchiseName(node.get("franchise_name").textValue());
-            }
-            addMenu(place);
-            placeRepository.save(place);
+            insertPlace(node);
         }
+    }
+    
+    @Transactional
+    public void insertPlace(JsonNode node) throws IOException {
+        Place place = new Place();
+        place.setPhone(new BigInteger(node.get("phone").textValue()));
+        place.setType(Place.Type.get(node.get("categories").get(0).textValue()));
+        Image image = new Image();
+        image.setLocation(infoDomain + node.get("logo_url").textValue());
+        image = imageRepository.save(image);
+        place.setLogo(image);
+        place.setName(node.get("name").textValue());
+        place.setHours(node.get("open_time_description").textValue());
+        place.setId(node.get("id").asLong());
+        Address address = parseAddress(node.get("address").textValue());
+        address = addressRepository.save(address);
+        place.setAddress(address);
+        place.setRating(node.get("review_avg").asDouble());
+        place.setLat(node.get("lat").asDouble());
+        place.setLng(node.get("lng").asDouble());
+        if (node.has("franchise_name")) {
+            place.setFranchiseName(node.get("franchise_name").textValue());
+        }
+        addMenu(place);
+        placeRepository.save(place);
+
     }
 
     private Address parseAddress(String str) {
@@ -205,7 +217,7 @@ public class DatabaseFiller {
 
         return place;
     }
-
+    @Transactional
     private Place parseAddMenu(String response, Place place) throws IOException {
         Menu menu;
         if (place.getFranchiseName() != null) {
@@ -223,7 +235,7 @@ public class DatabaseFiller {
 
         if (place.getFranchiseName() != null && !place.getFranchiseName().isEmpty()) {
             menu.setName(place.getFranchiseName());
-        }
+        } else menu.setName(place.getName());
 
         for (JsonNode items : root) {
             for (JsonNode item : items.get("items")) {

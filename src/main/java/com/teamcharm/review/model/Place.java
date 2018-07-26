@@ -26,7 +26,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Place {
     @Id
-    @GeneratedValue
     private long id;
     private String name, franchiseName;
     private BigInteger phone;

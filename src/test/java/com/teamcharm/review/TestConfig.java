@@ -18,20 +18,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TestConfig {
 
-//    @Bean
-//    public List<File> getFiles() {
-//        ArrayList<File> files = new ArrayList<>();
-//        files.add(new File("daeguzip.txt"));
-//        files.add(new File("seoulzip.txt"));
-//        files.add(new File("busanzip.txt"));
-//        files.add(new File("daejeonzip.txt"));
-//        return files;
-//    }
     @Bean
     public List<File> getFiles() {
         ArrayList<File> files = new ArrayList<>();
         files.add(new File("daeguzip.txt"));
+        files.add(new File("seoulzip.txt"));
+        files.add(new File("busanzip.txt"));
+        files.add(new File("daejeonzip.txt"));
         return files;
     }
+//    @Bean
+//    public List<File> getFiles() {
+//        ArrayList<File> files = new ArrayList<>();
+//        files.add(new File("daeguzip.txt"));
+//        return files;
+//    }
 
 }
