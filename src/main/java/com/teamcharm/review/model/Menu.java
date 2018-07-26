@@ -23,6 +23,8 @@ public class Menu {
     private long id;
     @OneToMany(mappedBy = "menu")
     private List<MenuItem> items;
+    
+    private String name;
 
     public Menu(long id, List<MenuItem> list) {
         this.id = id;
@@ -46,6 +48,16 @@ public class Menu {
     public void setItems(List<MenuItem> items) {
         this.items = items;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    
     
     
 }

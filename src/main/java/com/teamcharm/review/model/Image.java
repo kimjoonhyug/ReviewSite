@@ -5,7 +5,9 @@
  */
 package com.teamcharm.review.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -20,24 +22,24 @@ import javax.persistence.InheritanceType;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="product_type", 
-  discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "product_type",
+        discriminatorType = DiscriminatorType.STRING)
 public class Image implements Serializable {
-    
+
     @Id
     @GeneratedValue
     private long id;
-    
+
+    @Column(length = 500, columnDefinition = "text")
     private String location;
-    
+
     public Image(String location) {
         this.location = location;
     }
 
     public Image() {
     }
-    
-    
+
     public long getId() {
         return id;
     }
@@ -53,16 +55,9 @@ public class Image implements Serializable {
     public void setLocation(String location) {
         this.location = location;
     }
-    
+
     public enum ImageType {
         REVIEW, PLACE, MENU_ITEM
     }
 
-
-    
-    
-    
-    
-    
-    
 }

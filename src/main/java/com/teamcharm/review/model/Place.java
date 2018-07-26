@@ -28,7 +28,7 @@ public class Place {
     @Id
     @GeneratedValue
     private long id;
-    private String name;
+    private String name, franchiseName;
     private BigInteger phone;
     private String website;
     
@@ -176,6 +176,16 @@ public class Place {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    public String getFranchiseName() {
+        return franchiseName;
+    }
+
+    public void setFranchiseName(String franchiseName) {
+        this.franchiseName = franchiseName;
+    }
+    
+    
     
     
     

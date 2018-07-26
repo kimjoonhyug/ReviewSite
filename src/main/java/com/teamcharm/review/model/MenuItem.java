@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -21,8 +22,11 @@ public class MenuItem {
     private long id;
     private String name;
     private int price;
+    private String menuType;
     
     
+    
+    @OneToOne
     private MenuImage image;
     
     @ManyToOne
@@ -68,6 +72,24 @@ public class MenuItem {
     public void setImage(MenuImage image) {
         this.image = image;
     }
+
+    public String getMenuType() {
+        return menuType;
+    }
+
+    public void setMenuType(String menuType) {
+        this.menuType = menuType;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+    
+    
     
     
 }

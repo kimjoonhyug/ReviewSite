@@ -5,6 +5,9 @@
  */
 package com.teamcharm.review;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.teamcharm.review.repository.MenuItemRepository;
+import com.teamcharm.review.repository.MenuRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import java.io.File;
 import org.assertj.core.api.Assertions;
@@ -24,20 +27,21 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase()
 public class DatabaseFillerTest {
-    
-    @Value("${yogiyo.secret}")
-    private String secret;
-    
+
     @Autowired
     PlaceRepository placeRepository;
-    
-    @Autowired DatabaseFiller filler;
-    
-   
-    
-    
+
+    @Autowired
+    DatabaseFiller filler;
+
+    @Autowired
+    MenuRepository menuRepository;
+    @Autowired
+    MenuItemRepository menuItemRepository;
+    private ObjectMapper objectMapper;
+
     public DatabaseFillerTest() {
     }
 
@@ -46,11 +50,14 @@ public class DatabaseFillerTest {
      */
     @Test
     public void testFill() throws Exception {
-        
+        objectMapper = new ObjectMapper();
+
         filler.fill();
         System.out.println(placeRepository.count());
+        System.out.println(menuRepository.count());
+        System.out.println(menuItemRepository.count());
         Assertions.assertThat(placeRepository.count() > 50).isTrue();
-        
+
     }
-    
+
 }

@@ -9,14 +9,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamcharm.review.model.Address;
 import com.teamcharm.review.model.Image;
+import com.teamcharm.review.model.Menu;
+import com.teamcharm.review.model.MenuImage;
+import com.teamcharm.review.model.MenuItem;
 import com.teamcharm.review.model.Place;
 import com.teamcharm.review.repository.AddressRepository;
 import com.teamcharm.review.repository.ImageRepository;
+import com.teamcharm.review.repository.MenuItemRepository;
+import com.teamcharm.review.repository.MenuRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -52,16 +58,16 @@ public class DatabaseFiller {
     //USE string format
     @Value("${database.info.info}")
     private String info;
-    
+
     @Value("${yogiyo.key}")
     private String key;
-    
+
     @Value("${yogiyo.secret}")
     private String secret;
-    
+
     @Value("${yogiyo.key.key}")
     private String keykey;
-    
+
     @Value("${yogiyo.secret.key}")
     private String secretkey;
 
@@ -70,9 +76,15 @@ public class DatabaseFiller {
 
     @Autowired
     ImageRepository imageRepository;
-    
+
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    MenuRepository menuRepository;
+
+    @Autowired
+    MenuItemRepository menuItemRepository;
 
     public DatabaseFiller(List<File> zipFiles) {
         this.zipFiles = zipFiles;
@@ -80,7 +92,7 @@ public class DatabaseFiller {
         objectMapper = new ObjectMapper();
     }
 
-    public void fill()  {
+    public void fill() {
         zipFiles.forEach((zipFile) -> {
             try {
                 fillWithOne(zipFile);
@@ -88,10 +100,10 @@ public class DatabaseFiller {
                 Logger.getLogger(DatabaseFiller.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
     }
-    
-    private void fillWithOne(File file) throws Exception{
+
+    private void fillWithOne(File file) throws Exception {
         try (Scanner sc = new Scanner(file)) {
             String token;
             while (sc.hasNext()) {
@@ -104,7 +116,7 @@ public class DatabaseFiller {
                 token = token.replace("-", "");
                 try {
                     parseResponse(responseFromZipCode(token));
-                } catch(IOException e) {
+                } catch (IOException e) {
                     Logger.getLogger(DatabaseFiller.class.getName()).log(Level.SEVERE, "Possibly Bad Zip", e);
                 }
             }
@@ -114,31 +126,39 @@ public class DatabaseFiller {
     }
 
     private String responseFromZipCode(String token) throws IOException {
+        return generalYogiyoRequest(infoDomain + zip + token);
+    }
+
+    private String responseMenu(long placeId) throws IOException {
+        return generalYogiyoRequest(infoDomain + String.format(menu, placeId));
+    }
+
+    private String generalYogiyoRequest(String path) throws IOException {
         Request request = new Request.Builder()
-                .url(infoDomain+zip+token)
+                .url(path)
                 .addHeader(keykey, key)
                 .addHeader(secretkey, secret)
                 .build();
 
         try (Response response = httpClient.newCall(request).execute()) {
+
             if (!response.isSuccessful()) {
-                
                 throw new IOException("Unexpected code " + response);
             }
-            
             return response.body().string();
+
         }
     }
 
     private void parseResponse(String responseFromZipCode) throws IOException {
         JsonNode root = objectMapper.readTree(responseFromZipCode);
-        Place place; 
-        for(JsonNode node : root.get("restaurants")) {
+        Place place;
+        for (JsonNode node : root.get("restaurants")) {
             place = new Place();
             place.setPhone(new BigInteger(node.get("phone").textValue()));
             place.setType(Place.Type.get(node.get("categories").get(0).textValue()));
             Image image = new Image();
-            image.setLocation(infoDomain+node.get("logo_url").textValue());
+            image.setLocation(infoDomain + node.get("logo_url").textValue());
             image = imageRepository.save(image);
             place.setLogo(image);
             place.setName(node.get("name").textValue());
@@ -150,6 +170,10 @@ public class DatabaseFiller {
             place.setRating(node.get("review_avg").asDouble());
             place.setLat(node.get("lat").asDouble());
             place.setLng(node.get("lng").asDouble());
+            if (node.has("franchise_name")) {
+                place.setFranchiseName(node.get("franchise_name").textValue());
+            }
+            addMenu(place);
             placeRepository.save(place);
         }
     }
@@ -159,22 +183,74 @@ public class DatabaseFiller {
         Address address = new Address();
         address.setSido(piece[0]);
         address.setSigungu(piece[1]);
-        if(piece[2].endsWith("가")  || piece[2].contains("로")) {
+        if (piece[2].endsWith("가") || piece[2].contains("로")) {
             address.setDoro(piece[2]);
             address.setDong(piece[2]);
+        } else {
+            address.setDong(piece[2]);
         }
-        else address.setDong(piece[2]);
-        
-        if(piece.length == 4) {
+
+        if (piece.length == 4) {
             address.setDetail(piece[3]);
-        } else if (piece.length == 5){
-            address.setDetail(piece[3]+piece[4]);
+        } else if (piece.length == 5) {
+            address.setDetail(piece[3] + piece[4]);
         }
         return address;
-        
-        
+
     }
-    
-    
+
+    private Place addMenu(Place place) throws IOException {
+        String response = responseMenu(place.getId());
+        parseAddMenu(response, place);
+
+        return place;
+    }
+
+    private Place parseAddMenu(String response, Place place) throws IOException {
+        Menu menu;
+        if (place.getFranchiseName() != null) {
+            menu = findFranchiseMenu(place.getFranchiseName());
+            if (menu != null) {
+                place.setMenu(menu);
+                return place;
+            }
+        }
+        JsonNode root = objectMapper.readTree(response);
+        MenuItem menuItem;
+        menu = new Menu();
+        menu = menuRepository.save(menu);
+        ArrayList<MenuItem> menuItems = new ArrayList<>();
+
+        if (place.getFranchiseName() != null && !place.getFranchiseName().isEmpty()) {
+            menu.setName(place.getFranchiseName());
+        }
+
+        for (JsonNode items : root) {
+            for (JsonNode item : items.get("items")) {
+                menuItem = new MenuItem();
+                menuItem.setMenu(menu);
+                menuItem = menuItemRepository.save(menuItem);
+                if (item.has("image")) {
+                    MenuImage image = new MenuImage();
+                    image.setMenuItem(menuItem);
+                    image.setLocation(infoDomain + item.get("image").textValue());
+                    image = imageRepository.save(image);
+                    menuItem.setImage(image);
+                }
+                menuItem.setName(item.get("name").textValue());
+                menuItem.setPrice(item.get("price").asInt());
+                menuItem.setMenuType(item.get("section").textValue());
+                menuItemRepository.save(menuItem);
+                menuItems.add(menuItem);
+            }
+        }
+        menu.setItems(menuItems);
+        menuRepository.save(menu);
+        return place;
+    }
+
+    private Menu findFranchiseMenu(String franchiseName) {
+        return menuRepository.findMenuByName(franchiseName);
+    }
 
 }
