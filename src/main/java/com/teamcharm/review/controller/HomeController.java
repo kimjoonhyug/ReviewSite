@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.teamcharm.review.model.Member;
 import com.teamcharm.review.model.Place;
-import com.teamcharm.review.model.PlaceImage;
 import com.teamcharm.review.model.Review;
 import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;

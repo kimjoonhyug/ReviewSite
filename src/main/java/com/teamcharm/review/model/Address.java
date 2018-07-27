@@ -25,6 +25,7 @@ public class Address {
     private String doro;
     private String detail;
     private String fullAddress;
+    private int zipCode;
     
     public Address(){}
 
@@ -108,6 +109,16 @@ public class Address {
         sb.append(" ");
         return sb.toString();
     }
+
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
+    }
+    
+    
     
     
     

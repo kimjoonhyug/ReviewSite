@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamcharm.review.model.Address;
 import com.teamcharm.review.model.Image;
 import com.teamcharm.review.model.Menu;
-import com.teamcharm.review.model.MenuImage;
 import com.teamcharm.review.model.MenuItem;
 import com.teamcharm.review.model.Place;
 import com.teamcharm.review.repository.AddressRepository;
@@ -121,7 +120,7 @@ public class DatabaseFiller {
                 }
                 token = token.replace("-", "");
                 try {
-                    parseResponse(responseFromZipCode(token));
+                    parseResponse(responseFromZipCode(token), Integer.parseInt(token));
                 } catch (IOException e) {
                     Logger.getLogger(DatabaseFiller.class.getName()).log(Level.SEVERE, "Possibly Bad Zip", e);
                 }
@@ -157,15 +156,17 @@ public class DatabaseFiller {
     }
 
     @Transactional
-    private void parseResponse(String responseFromZipCode) throws IOException {
+    private void parseResponse(String responseFromZipCode, int zipCode) throws IOException {
         JsonNode root = objectMapper.readTree(responseFromZipCode);
         for (JsonNode node : root.get("restaurants")) {
-            insertPlace(node);
+            insertPlace(node, zipCode);
         }
     }
     
     @Transactional
-    public void insertPlace(JsonNode node) throws IOException {
+    public void insertPlace(JsonNode node, int zipCode) throws IOException {
+        if(placeRepository.findById(node.get("id").asLong()).isPresent())
+            return;
         Place place = new Place();
         place.setPhone(new BigInteger(node.get("phone").textValue()));
         place.setType(Place.Type.get(node.get("categories").get(0).textValue()));
@@ -177,6 +178,7 @@ public class DatabaseFiller {
         place.setHours(node.get("open_time_description").textValue());
         place.setId(node.get("id").asLong());
         Address address = parseAddress(node.get("address").textValue());
+        address.setZipCode(zipCode);
         address = addressRepository.save(address);
         place.setAddress(address);
         place.setRating(node.get("review_avg").asDouble());
@@ -243,8 +245,7 @@ public class DatabaseFiller {
                 menuItem.setMenu(menu);
                 menuItem = menuItemRepository.save(menuItem);
                 if (item.has("image")) {
-                    MenuImage image = new MenuImage();
-                    image.setMenuItem(menuItem);
+                    Image image = new Image();
                     image.setLocation(infoDomain + item.get("image").textValue());
                     image = imageRepository.save(image);
                     menuItem.setImage(image);

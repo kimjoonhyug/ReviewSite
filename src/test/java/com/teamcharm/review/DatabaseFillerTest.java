@@ -52,6 +52,7 @@ public class DatabaseFillerTest {
         System.out.println(placeRepository.count());
         System.out.println(menuRepository.count());
         System.out.println(menuItemRepository.count());
+        System.out.println(placeRepository.findByAddressZipCode(704130, null).getTotalElements());
         Assertions.assertThat(placeRepository.count() > 50).isTrue();
         
 

@@ -26,35 +26,39 @@ public class ReviewApplicationTests {
 	@Test
 	public void placeSearch() {
             Place place = new Place();
+            place.setId(1);
             place.setName("Test1Detelte");
             Address address = new Address();
             address.setDong("대구");
+            address.setZipCode(700290);
             address = addressRepository.save(address);
             place.setAddress(address);
+            
             placeRepository.save(place);
             
             Place place2 = new Place();
-            place2.setName("Test1Detelte");
+            place.setId(3);
+            place2.setName("Test1Detelte2");
             Address address2 = new Address();
             address2.setSido("대구");
+            address2.setZipCode(700290);
             address2 = addressRepository.save(address2);
             place2.setAddress(address2);
             placeRepository.save(place2);
             
             place = new Place();
+            place.setId(2);
             place.setName("대구");
             address = new Address();
             address.setDong("이곡동");
+            address.setZipCode(700290);
             address = addressRepository.save(address);
             place.setAddress(address);
             placeRepository.save(place);
             
             
-            
-            
-            Page<Place> result = placeRepository.findAllByAddressDong("대구", null);
-            Assertions.assertThat( result.getTotalElements()== 1).isTrue();
-            
+            Page<Place> result2 = placeRepository.findByAddressZipCode(700290, null);
+            Assertions.assertThat(result2.getTotalElements() > 1).isTrue();
             
             Page<Place> result1 = placeRepository.findAllByAddressDongContainingIgnoreCaseOrAddressSidoContainingIgnoreCaseOrAddressSigunguContainingIgnoreCaseOrNameContaining("대구", "대구", "대구", "대구", null);
             Assertions.assertThat(result1.getTotalElements() ==3).isTrue();

@@ -7,7 +7,6 @@ package com.teamcharm.review.controller;
 
 import com.teamcharm.review.model.Image;
 import com.teamcharm.review.model.Place;
-import com.teamcharm.review.model.PlaceImage;
 import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import java.io.File;
@@ -68,7 +67,7 @@ public class ImageController {
         if(place.getImages() ==null)
             place.setImages(new ArrayList<>());
         
-        List<PlaceImage> images = place.getImages();
+        List<Image> images = place.getImages();
                 
         String path = makePath(id, Image.ImageType.PLACE);
         File directory = (new File(path));
@@ -79,8 +78,7 @@ public class ImageController {
         files.forEach((file) -> {
             try {
                 file.transferTo(new File(path + file.getOriginalFilename()));
-                PlaceImage image = new PlaceImage(file.getOriginalFilename());
-                image.setPlace(place);
+                Image image = new Image(file.getOriginalFilename());
                 images.add(imageRepository.save(image));
             } catch (IOException | IllegalStateException ex) {
                 Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);

@@ -105,7 +105,7 @@ function searchByMap() {
 function search(result, status) {
     if (status === daum.maps.services.Status.OK) {
         setAddress(result);
-        getResultsFromDong(MapSearch.currentAddress.dong);
+        getResultsFromDong(MapSearch.currentAddress.code);
     }
 }
 
@@ -128,13 +128,13 @@ function Address(city, gun, dong, road, code) {
     this.code = code;
 }
 
-function getResultsFromDong(dong) {
+function getResultsFromDong(zipCode) {
     $.ajax({
         url: "/search/map",
         type: "get",
         async: true,
         data: {
-            dong: dong
+            zipCode: zipCode
         },
         success: function (response) {
             parseResponse(response);

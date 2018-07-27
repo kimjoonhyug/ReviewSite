@@ -6,6 +6,7 @@
 package com.teamcharm.review.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,19 +28,13 @@ public class MenuItem {
     
     
     
-    @OneToOne
-    private MenuImage image;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private Image image;
     
     @JsonIgnore
     @ManyToOne
     private Menu menu;
 
-    public MenuItem(long id, String name, int price, MenuImage image) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.image = image;
-    }
 
     public MenuItem(){}
     
@@ -71,7 +66,7 @@ public class MenuItem {
         return image;
     }
 
-    public void setImage(MenuImage image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 

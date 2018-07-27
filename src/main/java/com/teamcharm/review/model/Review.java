@@ -36,8 +36,8 @@ public class Review {
     private int rating;
     private LocalDateTime reviewDate;
     
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
-    List<ReviewImage> images;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    List<Image> images;
 
     public Review(long id, String content, int readcount, Place place, Member member, int rating, LocalDateTime date) {
         this.id = id;
@@ -107,11 +107,11 @@ public class Review {
         this.reviewDate = reviewDate;
     }
 
-    public List<ReviewImage> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<ReviewImage> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
     

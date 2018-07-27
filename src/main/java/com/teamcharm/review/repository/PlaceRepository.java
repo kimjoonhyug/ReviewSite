@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlaceRepository extends PagingAndSortingRepository<Place, Long> {
     
-    Page<Place> findAllByAddressDong(String dong, Pageable page);
+    Page<Place> findByAddressZipCode(int zipCode, Pageable page);
     Page<Place> findAllByAddressDongContainingIgnoreCaseOrAddressSidoContainingIgnoreCaseOrAddressSigunguContainingIgnoreCaseOrNameContaining(String search, String search2, String search3, String search4, Pageable page);
     Page<Place> findAllByType(String type, Pageable page);
 }

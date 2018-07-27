@@ -21,9 +21,9 @@ import javax.persistence.InheritanceType;
  * @author b005
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "product_type",
-        discriminatorType = DiscriminatorType.STRING)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@DiscriminatorColumn(name = "product_type",
+//        discriminatorType = DiscriminatorType.STRING)
 public class Image implements Serializable {
 
     @Id

@@ -45,8 +45,8 @@ public class Place {
     private Type type;
     private String hours;
     
-    @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
-    List<PlaceImage> images;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    List<Image> images;
     
     @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
     List<Review> reviews;
@@ -92,11 +92,11 @@ public class Place {
         this.id = id;
     }
 
-    public List<PlaceImage> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
-    public void setImages(List<PlaceImage> images) {
+    public void setImages(List<Image> images) {
         this.images = images;
     }
 
