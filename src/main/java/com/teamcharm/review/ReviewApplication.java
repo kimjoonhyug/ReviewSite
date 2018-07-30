@@ -23,7 +23,7 @@ public class ReviewApplication {
     @Bean
     public List<File> getFiles() {
         ArrayList<File> files = new ArrayList<>();
-        files.add(new File("daeguzip.txt"));
+        files.add(new File("daeguzipedit1.txt"));
 //        files.add(new File("seoulzip.txt"));
 //        files.add(new File("busanzip.txt"));
 //        files.add(new File("daejeonzip.txt"));

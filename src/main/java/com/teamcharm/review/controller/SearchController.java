@@ -34,8 +34,8 @@ public class SearchController {
     
     @ResponseBody
     @GetMapping("/map")
-    public ResponseEntity<Page<Place>> searchByDong(Pageable pageable, int zipCode) {
-        return ResponseEntity.ok(placeRepository.findByAddressZipCode(zipCode, pageable));
+    public ResponseEntity<Page<Place>> searchByDong(Pageable pageable, int zipCode, String dong) {
+        return ResponseEntity.ok(placeRepository.findByAddressZipCodeOrAddressDong(zipCode, dong, pageable));
     }
     
     
