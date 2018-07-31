@@ -91,10 +91,11 @@ public class DatabaseFiller {
         httpClient = new OkHttpClient();
         objectMapper = new ObjectMapper();
     }
-    
+
     public void run() {
-        if(placeRepository.count() < 700)
+        if (placeRepository.count() < 700) {
             fill();
+        }
     }
 
     public void fill() {
@@ -162,11 +163,12 @@ public class DatabaseFiller {
             insertPlace(node, zipCode);
         }
     }
-    
+
     @Transactional
     public void insertPlace(JsonNode node, int zipCode) throws IOException {
-        if(placeRepository.findById(node.get("id").asLong()).isPresent())
+        if (placeRepository.findById(node.get("id").asLong()).isPresent()) {
             return;
+        }
         Place place = new Place();
         place.setPhone(new BigInteger(node.get("phone").textValue()));
         place.setType(Place.Type.get(node.get("categories").get(0).textValue()));
@@ -219,6 +221,7 @@ public class DatabaseFiller {
 
         return place;
     }
+
     @Transactional
     private Place parseAddMenu(String response, Place place) throws IOException {
         Menu menu;
@@ -237,10 +240,25 @@ public class DatabaseFiller {
 
         if (place.getFranchiseName() != null && !place.getFranchiseName().isEmpty()) {
             menu.setName(place.getFranchiseName());
-        } else menu.setName(place.getName());
+        } else {
+            menu.setName(place.getName());
+        }
 
         for (JsonNode items : root) {
+            innerloop:
             for (JsonNode item : items.get("items")) {
+                if (menuItems.size() == 10) {
+                    break;
+                }
+                List<MenuItem> checks = menuItemRepository.findByName(item.get("name").textValue());
+                if (checks != null && checks.size() > 0) {
+                    MenuItem check = checks.get(0);
+                    if (check != null) {
+                        menuItems.add(check);
+                        continue;
+                    }
+                }
+
                 menuItem = new MenuItem();
                 menuItem.setMenu(menu);
                 menuItem = menuItemRepository.save(menuItem);

@@ -6,6 +6,7 @@
 package com.teamcharm.review.repository;
 
 import com.teamcharm.review.model.MenuItem;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MenuItemRepository extends CrudRepository<MenuItem, Long> {
     
-    
+    List<MenuItem> findByName(String name);
     
 }
