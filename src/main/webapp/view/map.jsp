@@ -12,9 +12,17 @@
         <title>JSP Page</title>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9da8e5437bc7e9b1c025282c2d5a4ea&libraries=services"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="resources/js/MapSearch.js"></script>
-            
-        
+        <script src="/resources/js/MapSearch.js"></script>
+        <script>
+            $(document).ready(function () {
+                getLocation();
+
+                console.log(MapSearch.currentPosition);
+
+            });
+        </script>
+
+
     </head>
     <body>
         <div id="map" style="width:100%;height:350px;"></div>

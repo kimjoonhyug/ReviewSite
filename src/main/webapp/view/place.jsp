@@ -10,46 +10,47 @@
     "http://www.w3.org/TR/html4/loose.dtd">
 
 
-       
-            <jsp:include page="header.jsp"/>
-            <script>$(document).ready(function (){
-                setupAndDisplayMap($('#lat').html(), $('#lng').html());
-            });</script>
-            <div>
-                <h1>name</h1><br>
-                <h3>category</h3>
-            </div>
-            <div>
-                <h2>별</h2><h3>평점</h3>
-            </div>
-            <div>
-                <c:forEach var="c" items="#" varStatus="status">
-                    <img src="#" style="float:left;">
-                </c:forEach>
-            </div>
-            <div id="map">
-                <p id="lat" hidden>${place.lat}</p>
-                <p id="lng" hidden>${place.lng}</p>
-            </div>
-            <div>
-                <table>
-                <c:forEach var="c" items="#" varStatus="status">
-                    <tr>
-                        <td>${reply}</td>
-                        <td><img src="#"></td>
-                    </tr>
-                </c:forEach>
-                    <tr>
-                        <td>
-                            <textarea cols="15" rows="5" placeholder="댓글을 입력해주세요."></textarea>
-                        </td>
-                        <td>
-                            <img src="#"><br>
-                            <button>평점쓰기</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </body>
-    </html>
+
+<jsp:include page="header.jsp"/>
+<script>
+    $(document).ready(function () {
+        setupAndDisplayMap($('#lat').html(), $('#lng').html());
+    });
+</script>
+<div>
+    <h1>name</h1><br>
+    <h3>category</h3>
+</div>
+<div>
+    <h2>별</h2><h3>평점</h3>
+</div>
+<div>
+    <c:forEach var="c" items="#" varStatus="status">
+        <img src="#" style="float:left;">
+    </c:forEach>
+</div>
+<div id="map" style="width:100%;height:350px;"></div>
+<p id="lat" hidden>${place.lat}</p>
+<p id="lng" hidden>${place.lng}</p>
+<div>
+    <table>
+        <c:forEach var="c" items="#" varStatus="status">
+            <tr>
+                <td>${reply}</td>
+                <td><img src="#"></td>
+            </tr>
+        </c:forEach>
+        <tr>
+            <td>
+                <textarea cols="15" rows="5" placeholder="댓글을 입력해주세요."></textarea>
+            </td>
+            <td>
+                <img src="#"><br>
+                <button>평점쓰기</button>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
 </f:view>

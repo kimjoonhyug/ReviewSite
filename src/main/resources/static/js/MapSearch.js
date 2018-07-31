@@ -9,12 +9,7 @@ var MapSearch = {
 
 
 //START
-$(document).ready(function () {
-    getLocation();
 
-    console.log(MapSearch.currentPosition);
-
-});
 
 function setMapAndGeo() {
     var mapOption;
@@ -155,38 +150,40 @@ function parseResponse(response) {
 function addResultsToPage(places) {
     $('#results').empty();
     $.each(places, function (i, place) {
-        $result =  $("<div></div>", {id: 'result'+1, class: 'result', click: function () {
-                window.open("/place/"+place.id);
+        $result = $("<div></div>", {id: 'result' + 1, class: 'result', click: function () {
+                window.open("/place/" + place.id);
             }
         });
-        
-        $result.append($("<div>"+ place.name + "</div>", {
-             class: 'result-name'}));
-        $result.append($("<div>"+ place.phone + "</div>", {
-            id: 'result'+1, class: 'result-phone'}));
-        $result.append($("<div>"+ place.address.full + "</div>", {
-            id: 'result'+1, class: 'result-address'}));
-        $result.append($("<div>"+ place.hours + "</div>", {
-            id: 'result'+1, class: 'result-hours'}));
+
+        $result.append($("<div>" + place.name + "</div>", {
+            class: 'result-name'}));
+        $result.append($("<div>" + place.phone + "</div>", {
+            id: 'result' + 1, class: 'result-phone'}));
+        $result.append($("<div>" + place.address.full + "</div>", {
+            id: 'result' + 1, class: 'result-address'}));
+        $result.append($("<div>" + place.hours + "</div>", {
+            id: 'result' + 1, class: 'result-hours'}));
         $('#results').append($result);
     });
-    
-    
-    
+
+
+
 }
 
-function makeMarker(lat,long) {
-    return new daum.maps.LatLng(lat, lng);
+function makeMarker(lat, lng) {
+    return new daum.maps.Marker({
+        position: new daum.maps.LatLng(lat, lng)
+    });
 }
 
 
 
 
-function setupAndDisplayMap(lat,lng) {
-     var mapOption;
-     mapOption = makeOptions(new daum.maps.LatLng(lat, lng));
+function setupAndDisplayMap(lat, lng) {
+    var mapOption;
+    mapOption = makeOptions(new daum.maps.LatLng(lat, lng));
 
-    var map = new daum.maps.Map($('#map')[0], mapOption); 
+    var map = new daum.maps.Map($('#map')[0], mapOption);
     makeMarker(lat,lng).setMap(map);
 }
 
