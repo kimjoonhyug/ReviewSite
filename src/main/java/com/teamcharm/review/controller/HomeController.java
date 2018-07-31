@@ -101,7 +101,7 @@ public class HomeController {
     @PostMapping("/place")
     public String place(Place place){
         //TODO save place
-        return "place";
+        return "home";
     }
     
     @GetMapping("/kind/{type}")
