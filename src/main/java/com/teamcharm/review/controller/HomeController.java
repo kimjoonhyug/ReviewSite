@@ -91,7 +91,7 @@ public class HomeController {
         
         Optional<Place> place = placeRepository.findById(id);
         if(place.isPresent()){
-            model.addAttribute("place",place);
+            model.addAttribute("place",place.get());
             return "place";
         }else{
             return "home";

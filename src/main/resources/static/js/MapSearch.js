@@ -175,5 +175,20 @@ function addResultsToPage(places) {
     
 }
 
+function makeMarker(lat,long) {
+    return new daum.maps.LatLng(lat, lng);
+}
+
+
+
+
+function setupAndDisplayMap(lat,lng) {
+     var mapOption;
+     mapOption = makeOptions(new daum.maps.LatLng(lat, lng));
+
+    var map = new daum.maps.Map($('#map')[0], mapOption); 
+    makeMarker(lat,lng).setMap(map);
+}
+
 
 
