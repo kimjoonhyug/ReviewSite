@@ -23,4 +23,5 @@ public interface PlaceRepository extends PagingAndSortingRepository<Place, Long>
     Page<Place> findAllByType(String type, Pageable page);
     
     Page<Place> findByAddressZipCodeOrAddressDong(int zipCode, String dong, Pageable page);
+    
 }

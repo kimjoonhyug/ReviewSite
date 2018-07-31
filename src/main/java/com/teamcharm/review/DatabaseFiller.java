@@ -45,6 +45,9 @@ public class DatabaseFiller {
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
 
+    @Value("${database.store.minimum-amount}")
+    private String amount;
+
     @Value("${database.info.domain}")
     private String infoDomain;
 
@@ -93,8 +96,10 @@ public class DatabaseFiller {
     }
 
     public void run() {
-        if (placeRepository.count() < 700) {
-            fill();
+        if (amount != null) {
+            if (placeRepository.count() < Integer.parseInt(amount)) {
+                fill();
+            }
         }
     }
 
@@ -166,7 +171,7 @@ public class DatabaseFiller {
 
     @Transactional
     public void insertPlace(JsonNode node, int zipCode) throws IOException {
-        if (placeRepository.findById(node.get("id").asLong()).isPresent()) {
+        if (placeRepository.existsById(node.get("id").asLong())) {
             return;
         }
         Place place = new Place();

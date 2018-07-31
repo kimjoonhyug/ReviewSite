@@ -18,5 +18,6 @@ import org.springframework.stereotype.Repository;
 public interface MenuItemRepository extends CrudRepository<MenuItem, Long> {
     
     List<MenuItem> findByName(String name);
+    boolean existsByName(String name);
     
 }
