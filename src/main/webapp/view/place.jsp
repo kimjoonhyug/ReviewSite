@@ -9,12 +9,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
-
-       
-            <jsp:include page="header.jsp"/>
-            <script>$(document).ready(function (){
-                setupAndDisplayMap($('#lat').html(), $('#lng').html());
-            });</script>
+<f:view>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>JSP Page</title>
+        </head>
+        <body>
             <div>
                 <h1>name</h1><br>
                 <h3>category</h3>
@@ -27,9 +28,8 @@
                     <img src="#" style="float:left;">
                 </c:forEach>
             </div>
-            <div id="map">
-                <p id="lat" hidden>${place.lat}</p>
-                <p id="lng" hidden>${place.lng}</p>
+            <div>
+                <h3>map</h3>
             </div>
             <div>
                 <table>
