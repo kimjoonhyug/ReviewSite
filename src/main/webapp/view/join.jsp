@@ -22,12 +22,12 @@
                     if(pw.length < 6 || pw.length > 16){
                         $('#pw1').value = $('#pw2').value = '';
                         $('#pw1span').html = '비밀번호는 6자리 이상 16자리 이하만 사용가능 합니다.';
-                        break;
+                        return;
                     }
-                    if($('#pw1').value !== '' && $('#pw2').value !== ''){
-                        if($('#pw1').value !== $('#pw2').value){
+                    if($('#pw1').value != '' && $('#pw2').value != ''){
+                        if($('#pw1').value != $('#pw2').value){
                             $('#pw2span').html = '비밀번호가 일치하지 않습니다.';
-                            break;
+                            return;
                         }else{
                             regform.submit();
                         }
