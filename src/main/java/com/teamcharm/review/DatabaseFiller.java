@@ -93,7 +93,7 @@ public class DatabaseFiller {
     }
     
     public void run() {
-        if(placeRepository.count() < 700)
+        if(placeRepository.count() < 0)
             fill();
     }
 

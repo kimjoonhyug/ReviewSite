@@ -18,7 +18,16 @@
         <body>
             <jsp:include page="header.jsp"/>
             <h2>${place.type}</h2>
-            
+            <div>
+                <%
+                    for(int i=0; i<20; i++){    
+                %>
+                <figure>
+                    <img src="#"/>
+                    <figcaption></figcaption>
+                </figure>
+                <%}%>
+            </div>
         </body>
     </html>
 </f:view>
