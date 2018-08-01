@@ -5,7 +5,6 @@
  */
 package com.teamcharm.review.controller;
 
-import com.teamcharm.review.model.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,99 +15,95 @@ import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import com.teamcharm.review.repository.ReviewRepository;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import static org.springframework.http.RequestEntity.post;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+
 /**
  *
  * @author b003
  */
 @Controller
 public class HomeController {
+
     @Autowired
     ReviewRepository reviewRepository;
-    
+
     @Autowired
     MemberRepository memberRepository;
-    
+
     @Autowired
     PlaceRepository placeRepository;
-    
+
     @Autowired
     ImageRepository imageRepository;
-    
-    
+
     @Value("${place.image.save-location-path}")
     private String saveLocationPath;
-    
-    @GetMapping(value = {"/home","/"})
-    public String home(Member member){
-        
+
+    @GetMapping(value = {"/home", "/"})
+    public String home(Member member) {
+
         return "home";
     }
-    
+
     @PostMapping("/new")
-    public String newReview(Review review){
-        reviewRepository.save(review);
-        return "new";
+    public String newReview(Review review, @AuthenticationPrincipal Member member, long placeId) {
+        Optional<Place> option = placeRepository.findById(placeId);
+        if (option.isPresent()) {
+            review.setReviewDate(LocalDateTime.now());
+            review.setReviewer(member);
+            review.setPlace(option.get());
+            reviewRepository.save(review);
+            return "new";
+        } else 
+            return "home";
     }
-    
+
     @GetMapping("/register")
-    public String register(){
-        
+    public String register() {
+
         return "join";
     }
-    
+
     @GetMapping("/map")
     public String map() {
         return "map";
     }
 
-    
     @PostMapping("/register")
-    public String register(Member member){
+    public String register(Member member) {
         memberRepository.save(member);
         return "redirect:/login";
     }
-    
+
     @GetMapping("/place/{id}")
-    public String place(Model model, @PathVariable long id){
-        
+    public String place(Model model, @PathVariable long id) {
+
         Optional<Place> place = placeRepository.findById(id);
-        if(place.isPresent()){
-            model.addAttribute("place",place.get());
+        if (place.isPresent()) {
+            model.addAttribute("place", place.get());
             return "place";
-        }else{
+        } else {
             return "home";
         }
     }
-    
+
     @PostMapping("/place")
-    public String place(Place place){
+    public String place(Place place) {
         //TODO save place
         return "home";
     }
-    
+
     @GetMapping("/kind/{type}")
-    public String kind(Place place){
+    public String kind(Place place) {
         return "kind";
     }
-    
+
     private String makePath(long placeId) {
         StringBuilder sb = new StringBuilder(saveLocationPath);
         sb.append("\\");
@@ -116,9 +111,5 @@ public class HomeController {
         sb.append("\\images\\");
         return sb.toString();
     }
-    
-    @PostMapping("/reply")
-    public String reply (Review review){
-        return("place");
-    }
+
 }
