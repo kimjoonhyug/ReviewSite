@@ -14,42 +14,63 @@
 <jsp:include page="header.jsp"/>
 <script>
     $(document).ready(function () {
-        setupAndDisplayMap($('#lat').html(), $('#lng').html());
+        setupAndDisplayMap(${place.lat}, ${place.lng});
     });
 </script>
-<div>
-    <h1>name</h1><br>
-    <h3>category</h3>
+<div class="placeLogo"
+    
+    <img src="${place.logo.location}" class="img-thumbnail"/>
+    
+</div>
+<div class="placeInfo">
+    <h1>${place.name}</h1><br>
+    <h3>${place.type}</h3>
+    <h2>${place.rating}</h2>
 </div>
 <div>
-    <h2>별</h2><h3>평점</h3>
-</div>
-<div>
-    <c:forEach var="c" items="#" varStatus="status">
-        <img src="#" style="float:left;">
+    <c:forEach var="image" items="${place.images}" varStatus="status">
+        <img src="${image.location}">
     </c:forEach>
 </div>
-<div id="map" style="width:100%;height:350px;"></div>
-<p id="lat" hidden>${place.lat}</p>
-<p id="lng" hidden>${place.lng}</p>
-<div>
+<div id="map" style="width:80%;height:350px; margin:100px auto;"></div>
+<div class="replyArea">
+    <div class="replys">
     <table>
-        <c:forEach var="c" items="#" varStatus="status">
+        <tr>
+            <td colspan="3" style="text-align:center;"><h4>한줄평</h4></td>
+        </tr>
+        <tr>
+            <td class="reviewMem"><span class="review-background">member</span></td>
+            <td class="reviewContent">굿입니다.</td>
+            <td class="reviewRating"><span class="review-background">4</span></td>
+            <td>2014-02-03</td>
+        </tr>
+        <c:forEach var="review" items="${place.reviews}" varStatus="status">
             <tr>
-                <td>${reply}</td>
-                <td><img src="#"></td>
+                <td>${review.content}</td>
             </tr>
         </c:forEach>
-        <tr>
-            <td>
-                <textarea cols="15" rows="5" placeholder="댓글을 입력해주세요."></textarea>
-            </td>
-            <td>
-                <img src="#"><br>
-                <button>평점쓰기</button>
-            </td>
-        </tr>
     </table>
+    </div>
+    <div class="reply-form">
+    <form action="/reply" method="post" name="replyForm">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <textarea name="content" class="form-control" rows="3"></textarea>&nbsp;
+        <fieldset class="rating">
+            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+            <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+            <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+            <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+            <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+            <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+        </fieldset><br><br>
+        <button class="btn btn-primary" onclick="javascript:replyForm.submit();" id="reviewBtn">평점쓰기</button>
+    </form>
+    </div>
 </div>
 </body>
 </html>

@@ -117,5 +117,8 @@ public class HomeController {
         return sb.toString();
     }
     
-    
+    @PostMapping("/reply")
+    public String reply (Review review){
+        return("place");
+    }
 }
