@@ -15,6 +15,7 @@ import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import com.teamcharm.review.repository.ReviewRepository;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,9 @@ public class HomeController {
 
         Optional<Place> place = placeRepository.findById(id);
         if (place.isPresent()) {
-            model.addAttribute("place", place.get());
+            Place place = place.get();
+            place.setRating(new DecimalFormat("#0.0").format(place.getRating()));
+            model.addAttribute("place", place);
             return "place";
         } else {
             return "home";
