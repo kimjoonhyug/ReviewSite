@@ -17,16 +17,14 @@
         </head>
         <body>
             <jsp:include page="header.jsp"/>
+            <div class="container">
             <h2>${place.type}</h2>
             <div>
-                <%
-                    for(int i=0; i<20; i++){    
-                %>
-                <figure>
-                    <img src="#"/>
-                    <figcaption></figcaption>
-                </figure>
-                <%}%>
+                <c:forEach var="places" items="${place.logo}">
+                    
+                    <img src="${places.location}" alt="${place.name}"/>
+                </c:forEach>
+            </div>
             </div>
         </body>
     </html>
