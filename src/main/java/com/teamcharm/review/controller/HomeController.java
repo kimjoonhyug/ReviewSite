@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,7 +104,10 @@ public class HomeController {
     }
 
     @GetMapping("/kind/{type}")
-    public String kind(Place place) {
+    public String kind(@PathVariable Place.Type type, Pageable page, Model model) {
+        Page<Place> result = placeRepository.findAllByType(type.toString(), page);
+        model.addAttribute("pages", result.getTotalPages());
+        model.addAttribute("places", result.getContent());
         return "kind";
     }
 
