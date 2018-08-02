@@ -61,7 +61,7 @@ public class HomeController {
             review.setReviewer(member);
             review.setPlace(option.get());
             reviewRepository.save(review);
-            return "new";
+            return "redirect:/place/"+placeId;
         } else 
             return "home";
     }
@@ -104,8 +104,8 @@ public class HomeController {
     }
 
     @GetMapping("/kind/{type}")
-    public String kind(@PathVariable Place.Type type, Pageable page, Model model) {
-        Page<Place> result = placeRepository.findAllByType(type.toString(), page);
+    public String kind(@PathVariable String type, Pageable page, Model model) {
+        Page<Place> result = placeRepository.findAllByType(type, page);
         model.addAttribute("pages", result.getTotalPages());
         model.addAttribute("places", result.getContent());
         return "kind";
