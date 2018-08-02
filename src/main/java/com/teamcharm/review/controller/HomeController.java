@@ -105,7 +105,7 @@ public class HomeController {
 
     @GetMapping("/kind/{type}")
     public String kind(@PathVariable String type, Pageable page, Model model) {
-        Page<Place> result = placeRepository.findAllByType(type, page);
+        Page<Place> result = placeRepository.findAllByType(Place.Type.valueOf(type), page);
         model.addAttribute("pages", result.getTotalPages());
         model.addAttribute("places", result.getContent());
         return "kind";

@@ -48,7 +48,7 @@ public class SearchController {
     }
     @GetMapping("/type")
     public String pageByType(Pageable pageable, String type, Model model) {
-        Page<Place> page =  placeRepository.findAllByType(type, pageable);
+        Page<Place> page =  placeRepository.findAllByType(Place.Type.valueOf(type), pageable);
         model.addAttribute("places", page.getContent() );
         model.addAttribute("pages", page.getTotalPages());
         return "search";
