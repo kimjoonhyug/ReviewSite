@@ -87,10 +87,21 @@ public class HomeController {
         Optional<Place> place = placeRepository.findById(id);
         if (place.isPresent()) {
             model.addAttribute("place", place.get());
+            
+            model.addAttribute("phone", makePhone(place.get().getPhone().toString()));
             return "place";
         } else {
             return "home";
         }
+    }
+    
+    public String makePhone(String number) {
+        if(number.length() < 8)
+            return number;
+        StringBuilder sb = new StringBuilder(number);
+        sb.insert(number.length() -4, '-');
+        sb.insert(number.length()-9, '-');
+        return number;
     }
 
     @PostMapping("/place")
