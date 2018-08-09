@@ -7,3 +7,4 @@
 function openPop(){
     window.open("localhost:8804/register", "startpop", "top=0, left=0, width=800, height=500, scrollbars=no, resizable=no, status=no, toolbar=no");
 }
+

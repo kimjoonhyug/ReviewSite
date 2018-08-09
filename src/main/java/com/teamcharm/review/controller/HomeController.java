@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -43,7 +44,10 @@ public class HomeController {
 
     @Autowired
     ImageRepository imageRepository;
-
+    
+    @Autowired 
+    PasswordEncoder passwordEncoder;
+    
     @Value("${place.image.save-location-path}")
     private String saveLocationPath;
 
@@ -68,7 +72,7 @@ public class HomeController {
 
     @GetMapping("/register")
     public String register() {
-
+            
         return "join";
     }
 
@@ -79,6 +83,7 @@ public class HomeController {
 
     @PostMapping("/register")
     public String register(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
         return "redirect:/login";
     }

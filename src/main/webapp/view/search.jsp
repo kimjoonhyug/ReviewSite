@@ -9,14 +9,23 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
-<f:view>
-    <html>
-        <head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>JSP Page</title>
-        </head>
-        <body>
-            
-        </body>
-    </html>
-</f:view>
+<jsp:include page="header.jsp"/>
+<div class="container">
+    <div class="row">
+    <div class="col-md-12">
+        <h4 id="searchResult"><b><span style="color:brown">${address.dong}</span></b>으로 검색한 결과</h4>
+    <c:forEach var="place" items="${places}">
+        <figure class="kindImage">
+            <a href="${pageContext.request.contextPath}/place/${place.id}"><img src="${place.logo.location}" alt="${place.name}"/></a>
+            <figcaption>
+                <a href="${pageContext.request.contextPath}/place/${place.id}">
+                    ${place.name}<br><span style="color:gold;">★</span><f:formatNumber value= "${place.rating}" maxFractionDigits="1"/>
+                </a>
+            </figcaption>
+        </figure>
+    </c:forEach>
+    </div>
+    </div>
+</div>
+</body>
+</html>

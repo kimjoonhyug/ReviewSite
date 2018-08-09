@@ -15,25 +15,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>JSP Page</title>
             <link rel="stylesheet" type="text/css" href="resources/css/review.css"/>
-            <script>
-                function passwordCheck(){
-                    var pw = document.regform.password.value;
-                    var pwCheck = document.regform.password2.value;
-                    if(pw.length < 6 || pw.length > 16){
-                        $('#pw1').value = $('#pw2').value = '';
-                        $('#pw1span').html = '비밀번호는 6자리 이상 16자리 이하만 사용가능 합니다.';
-                        return;
-                    }
-                    if($('#pw1').value != '' && $('#pw2').value != ''){
-                        if($('#pw1').value != $('#pw2').value){
-                            $('#pw2span').html = '비밀번호가 일치하지 않습니다.';
-                            return;
-                        }else{
-                            regform.submit();
-                        }
-                    }
-                }
-            </script>
+            
         </head>
         <body>
             <div id="registerForm">
