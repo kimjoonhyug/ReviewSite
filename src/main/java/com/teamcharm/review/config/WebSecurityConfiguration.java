@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  *
@@ -33,11 +34,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/home","/reply","/register","/login","/store**","/place/**","/resources/**","/favicon.ico","/map","/search/**").permitAll()
+                .antMatchers("/home","/reply","/register","/login","/store**","/place/**","/resources/**","/favicon.ico","/map","/search/**","/kind/**").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin()
+                .and().formLogin().defaultSuccessUrl("/home")
                 .and()
-                .logout()
+                .logout().logoutSuccessUrl("/home")
                 .permitAll()
                 .and().csrf();
     }
