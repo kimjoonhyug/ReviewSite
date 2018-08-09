@@ -150,24 +150,32 @@ function parseResponse(response) {
 function addResultsToPage(places) {
     $('#results').empty();
     $.each(places, function (i, place) {
-        $result = $("<div></div>", {id: 'result' + 1, class: 'result', click: function () {
+        $result = $("<div></div>", {id: 'result' + i, class: 'result', click: function () {
                 window.open("/place/" + place.id);
             }
         });
 
         $result.append($("<div>" + place.name + "</div>", {
-            class: 'result-name'}));
+            id: 'result-name' + i, class: 'result-name'}));
+        
         $result.append($("<div>" + place.phone + "</div>", {
-            id: 'result' + 1, class: 'result-phone'}));
+            id: 'result-phone' + i, class: 'result-phone'}));
+        
         $result.append($("<div>" + place.address.full + "</div>", {
-            id: 'result' + 1, class: 'result-address'}));
+            id: 'result-address' + i, class: 'result-address'}));
+        
         $result.append($("<div>" + place.hours + "</div>", {
-            id: 'result' + 1, class: 'result-hours'}));
+            id: 'result-hours' + i, class: 'result-hours'}));
+        
         $('#results').append($result);
+        
+        addMarker(place);
     });
 
+}
 
-
+function addMarker(place) {
+     makeMarker(place.lat,place.lng).setMap(MapSearch.map);
 }
 
 function makeMarker(lat, lng) {
