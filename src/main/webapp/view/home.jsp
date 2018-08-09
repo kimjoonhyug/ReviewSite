@@ -50,49 +50,8 @@
             </div>
             <div id="recommend" class="mt-5"">
                 <p style="padding-left:20px; font-size:1.6em;"><i><b><span style="color: crimson">오늘의</span></b> 추천맛집</i></p>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>짜장집</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>갈비탕</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>맥도날드</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>롯데리아</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>맘스터치</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>맘스터치</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>맘스터치</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>맘스터치</figcaption>
-                </figure>
-                <figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>
-                        감자탕
-                    </figcaption>
-                </figure><figure>
-                    <a href="#"><img src="resources/images/test.png" class="rounded"/></a>
-                    <figcaption>피자나라치킨공주</figcaption>
-                </figure>
+                
             </div>
-            
         </body>
     </html>
 </f:view>

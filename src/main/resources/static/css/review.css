@@ -9,20 +9,14 @@ and open the template in the editor.
 */
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
-#searchinput{
-    width:450px;
-    height:30px;
+li{
+    text-decoration: none;
+    display: inline-block;
+    margin: 0px 15px;
 }
-a{
+a :hover{
     text-decoration: none;
 }
-#category li{
-    padding:0 20px;
-}
-#search {
-    width:350px;
-}
-
 #recommend{
     width:1100px;
     margin:auto;
@@ -64,7 +58,7 @@ figcaption{
     height:20px;
 }
 .carousel{
-    width:85%;
+    width:80%;
     height:500px;
     margin:auto;
     padding:30px 0px 30px;
@@ -159,4 +153,13 @@ figcaption{
     border-radius: 20px;
     background-color: steelblue;
     padding:10px;
+}
+#searchResult{
+    margin: 20px;
+}
+.kindImage{
+    margin: 12px;
+}
+.kindImage figcaption{
+    text-decoration: none;
 }
