@@ -52,15 +52,14 @@
             <img src="${image.location}" alt="no image">
         </c:forEach>
     </div>
-
-    <div id="map" style="width:80%;height:350px; margin:auto;">
-        <p id="lat" hidden>${place.lat}</p>
-        <p id="lng" hidden>${place.lng}</p>
-    </div>
-
-    <div>
-        <table class="table table-hover table-condensed">
-            <c:forEach var="menu" items="${place.menu.items}" varStatus="status">
+    <div class='row'>
+        <div id="map" class='col-lg-5' style="height:350px; margin:auto;">
+            <p id="lat" hidden>${place.lat}</p>
+            <p id="lng" hidden>${place.lng}</p>
+        </div>
+        <table class="table table-hover table-condensed col-lg-5">
+            <c:if test="${place.menu.items == null}">No Menu Items</c:if>
+            <c:forEach var="menu" items="${place.menu.items}" begin='0' end='5' varStatus="status">
                 <tr>
                     <td><img src="${menu.image.location}"  style="display:inline-block; width:40px; height:40px;"/></td>
                     <td>${menu.name}<td>
@@ -68,6 +67,9 @@
                 </tr>
             </c:forEach>
         </table>
+    </div>
+    <div>
+        
     </div>
 
     <div class="replyArea">
@@ -97,13 +99,13 @@
                     <div class="col-md-4" style="text-align:center;">
                         <p>평점을 선택하세요</p>
                         <div class="col-md-10 offset-md-1">
-                        <fieldset class="rating" style="margin:-20px 0px 20px;">
-                            <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-                            <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-                            <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-                            <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-                            <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-                        </fieldset>
+                            <fieldset class="rating" style="margin:-20px 0px 20px;">
+                                <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                            </fieldset>
                         </div>
                         <button class="btn btn-primary" onclick="javascript:replyForm.submit();" id="reviewBtn">평점쓰기</button>
                     </div>

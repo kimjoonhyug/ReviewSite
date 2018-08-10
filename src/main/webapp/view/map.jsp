@@ -24,16 +24,27 @@
 
             });
         </script>
+        <style>
+            .hover {
+                background-color: gray;
+            }
+        </style>
 
 
     </head>
     <body>
         <jsp:include page="header.jsp"/>
         <div class="container">
-        <div id="map" style="width:100%;height:450px; margin:20px 0px;"></div>
-        <div id="address"></div>
-        <div id="results"></div>
-        <button onclick="searchByMap()">Search Map</button>
+            <button onclick="searchByMap(0)">Search Map</button>
+            <div class='row'>
+                <div class='col-lg-6' id="map" style="height:450px; margin:20px 0px;"></div>  
+                <div class='col-lg-6' id="results"></div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul id="pagination-ul" class="pagination">
+                </ul>
+            </nav>
+            <div id="address"></div>
         </div>
     </body>
 </html>

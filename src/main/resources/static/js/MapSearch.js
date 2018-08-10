@@ -1,13 +1,6 @@
 var MapSearch = {
     RESULTS_ID: "results"
 };
-
-
-
-
-
-
-
 //START
 
 
@@ -21,7 +14,6 @@ function setMapAndGeo() {
 
     var map = new daum.maps.Map($('#map')[0], mapOption); // 지도를 생성합니다
     var geocoder = new daum.maps.services.Geocoder();
-
     MapSearch.map = map;
     MapSearch.geocoder = geocoder;
 }
@@ -57,43 +49,30 @@ setCurrentPosition = function (position) {
         NoGeo();
     }
 };
-
 displayDong = function () {
     setAddress(MapSearch.map.getCenter());
 };
-
 getCenter = function () {
     return MapSearch.map.getCenter();
 };
-
-
 var callback = function (result, status) {
     if (status === daum.maps.services.Status.OK) {
         console.log(result);
         $('#address').html(result[0].address.region_3depth_name);
     }
 };
-
 findAddress = function (point) {
     doSomethingWithMapPoint(MapSearch.geocoder, point, callback);
 };
-
 doSomethingWithMapPoint = function (geocoder, newPoint, callback) {
     geocoder.coord2Address(newPoint.getLng(), newPoint.getLat(), callback);
 };
-
 makePoint = function (position) {
     return new daum.maps.LatLng(position.coords.latitude, position.coords.longitude);
 };
-
-
-
-
-
-
-
 //MAP SEARCH
-function searchByMap() {
+function searchByMap(page) {
+    MapSearch.currentPage = page;
     doSomethingWithMapPoint(MapSearch.geocoder, getCenter(), search);
 }
 
@@ -130,7 +109,9 @@ function getResultsFromDong(zipCode, dong) {
         async: true,
         data: {
             zipCode: zipCode,
-            dong: dong
+            dong: dong,
+            size: 5,
+            page: MapSearch.currentPage
         },
         success: function (response) {
             parseResponse(response);
@@ -145,37 +126,65 @@ function parseResponse(response) {
     MapSearch.currentPage = json.number;
     MapSearch.totalPages = json.totalPages;
     addResultsToPage(places);
+    addPagination(json.totalPages);
 }
 
 function addResultsToPage(places) {
     $('#results').empty();
+    nullifyMarkers();
+    MapSearch.markers = [];
     $.each(places, function (i, place) {
         $result = $("<div></div>", {id: 'result' + i, class: 'result', click: function () {
-                window.open("/place/" + place.id);
+                window.location.href = "/place/" + place.id;
             }
         });
-
         $result.append($("<div></div>", {
-            id: 'result-name' + i, 'class': 'result-name', html: place.name }));
-        
+            id: 'result-name' + i, 'class': 'result-name', html: place.name}));
         $result.append($("<div></div>", {
             id: 'result-phone' + i, class: 'result-phone', html: place.phone}));
-        
         $result.append($("<div></div>", {
             id: 'result-address' + i, class: 'result-address', html: place.address.full}));
-        
         $result.append($("<div></div>", {
             id: 'result-hours' + i, class: 'result-hours', html: place.hours}));
-        
         $('#results').append($result);
-        
-        addMarker(place);
+        MapSearch.markers.push(addMarker(i, place));
     });
+    MapSearch.map.setLevel(5);
+}
 
+function addPagination(pageAmount) {
+    $('#pagination-ul').empty();
+    for (var i = 0; i < pageAmount; i++) {
+        $('#pagination-ul').append($("<li></li>", {
+            id: 'result-name' + i,
+            'class': 'page-item',
+            html: i,
+            click: function () {
+                searchByMap(this.innerText);
+            }
+
+        }));
+    }
+}
+
+function nullifyMarkers() {
+    if (MapSearch.markers !== undefined) {
+        for (var i = 0; i < MapSearch.markers.length; i++) {
+            MapSearch.markers[i].setMap(null);
+        }
+    }
 }
 //DB to connect  -- 118.131.179.138
-function addMarker(place) {
-     makeMarker(place.lat,place.lng).setMap(MapSearch.map);
+function addMarker(i, place) {
+    var marker = makeMarker(place.lat, place.lng);
+    daum.maps.event.addListener(marker, 'mouseover', function () {
+        $('#result' + i).addClass('hover');
+    });
+    daum.maps.event.addListener(marker, 'mouseout', function () {
+        $('#result' + i).removeClass('hover');
+    });
+    marker.setMap(MapSearch.map);
+    return marker;
 }
 
 function makeMarker(lat, lng) {
@@ -190,9 +199,8 @@ function makeMarker(lat, lng) {
 function setupAndDisplayMap(lat, lng) {
     var mapOption;
     mapOption = makeOptions(new daum.maps.LatLng(lat, lng));
-
     var map = new daum.maps.Map($('#map')[0], mapOption);
-    makeMarker(lat,lng).setMap(map);
+    makeMarker(lat, lng).setMap(map);
 }
 
 
