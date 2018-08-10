@@ -20,7 +20,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
@@ -52,8 +54,8 @@ public class HomeController {
     private String saveLocationPath;
 
     @GetMapping(value = {"/home", "/"})
-    public String home(Member member) {
-
+    public String home(Member member,Model model) {
+        model.addAttribute("places",placeRepository.findAll(PageRequest.of(0,4)).getContent());
         return "home";
     }
 

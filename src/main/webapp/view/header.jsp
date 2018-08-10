@@ -48,7 +48,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/login" method="post" name="loginForm">
+                                        <form action="/home" method="post" name="loginForm">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="text" name="username" class="form-control mb-2" placeholder=" 아이디" required/>
                                             <input type="password" name="password" class="form-control" placeholder=" 비밀번호" required/>

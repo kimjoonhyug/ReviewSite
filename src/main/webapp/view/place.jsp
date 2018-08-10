@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -107,7 +108,8 @@
                                 <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
                             </fieldset>
                         </div>
-                        <button class="btn btn-primary" onclick="javascript:replyForm.submit();" id="reviewBtn">평점쓰기</button>
+                        <sec:authorize access="!isAuthenticated()"><span class="" >로그인 필요</span></sec:authorize>
+                        <sec:authorize access="isAuthenticated()"><button class="btn btn-primary" onclick="javascript:replyForm.submit();" id="reviewBtn">평점쓰기</button></sec:authorize> 
                     </div>
             </form>
         </div>

@@ -135,7 +135,7 @@ function addResultsToPage(places) {
     MapSearch.markers = [];
     $.each(places, function (i, place) {
         $result = $("<div></div>", {id: 'result' + i, class: 'result', click: function () {
-                window.location.href = "/place/" + place.id;
+                window.open("/place/" + place.id);
             }
         });
         $result.append($("<div></div>", {
@@ -182,6 +182,9 @@ function addMarker(i, place) {
     });
     daum.maps.event.addListener(marker, 'mouseout', function () {
         $('#result' + i).removeClass('hover');
+    });
+    daum.maps.event.addListener(marker, 'click', function () {
+        window.open("/place/" + place.id);
     });
     marker.setMap(MapSearch.map);
     return marker;

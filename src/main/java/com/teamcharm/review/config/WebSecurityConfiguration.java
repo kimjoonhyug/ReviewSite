@@ -16,6 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -34,9 +37,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/home","/reply","/register","/login","/store**","/place/**","/resources/**","/favicon.ico","/map","/search/**","/kind/**").permitAll()
+                .antMatchers("/home","/reply","/register","/login","/store**","/place/**","/resources/**","/favicon.ico","/map","/search/**","/kind/**","/").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().defaultSuccessUrl("/home")
+                .and().formLogin().loginPage("/home").successHandler(successHandler())
                 .and()
                 .logout().logoutSuccessUrl("/home")
                 .permitAll()
@@ -52,6 +55,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+    
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler sc = new SimpleUrlAuthenticationSuccessHandler();
+        sc.setUseReferer(true);
+        return sc;
     }
 
     @Autowired
