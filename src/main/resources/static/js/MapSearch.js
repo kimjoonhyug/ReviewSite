@@ -155,17 +155,17 @@ function addResultsToPage(places) {
             }
         });
 
-        $result.append($("<div>" + place.name + "</div>", {
-            id: 'result-name' + i, class: 'result-name'}));
+        $result.append($("<div></div>", {
+            id: 'result-name' + i, 'class': 'result-name', html: place.name }));
         
-        $result.append($("<div>" + place.phone + "</div>", {
-            id: 'result-phone' + i, class: 'result-phone'}));
+        $result.append($("<div></div>", {
+            id: 'result-phone' + i, class: 'result-phone', html: place.phone}));
         
-        $result.append($("<div>" + place.address.full + "</div>", {
-            id: 'result-address' + i, class: 'result-address'}));
+        $result.append($("<div></div>", {
+            id: 'result-address' + i, class: 'result-address', html: place.address.full}));
         
-        $result.append($("<div>" + place.hours + "</div>", {
-            id: 'result-hours' + i, class: 'result-hours'}));
+        $result.append($("<div></div>", {
+            id: 'result-hours' + i, class: 'result-hours', html: place.hours}));
         
         $('#results').append($result);
         
@@ -173,7 +173,7 @@ function addResultsToPage(places) {
     });
 
 }
-
+//DB to connect  -- 118.131.179.138
 function addMarker(place) {
      makeMarker(place.lat,place.lng).setMap(MapSearch.map);
 }
