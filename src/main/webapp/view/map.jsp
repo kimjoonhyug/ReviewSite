@@ -35,16 +35,17 @@
     <body>
         <jsp:include page="header.jsp"/>
         <div class="container">
-            <button onclick="searchByMap(0)">Search Map</button>
             <div class='row'>
-                <div class='col-lg-6' id="map" style="height:450px; margin:20px 0px;"></div>  
-                <div class='col-lg-6' id="results"></div>
+                <div class='col-lg-5' id="map"></div>  
+                <div class='offset-lg-1 col-lg-5' id="results">
+                </div>
             </div>
-            <nav aria-label="Page navigation example">
+            <button class="btn btn-success" id="mapbutton" onclick="searchByMap(0)">Search Map</button>
+            <div id="address"></div>
+            <nav aria-label="Page navigation example" id="mapPlace">
                 <ul id="pagination-ul" class="pagination">
                 </ul>
             </nav>
-            <div id="address"></div>
         </div>
     </body>
 </html>
