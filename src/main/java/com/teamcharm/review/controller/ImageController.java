@@ -37,63 +37,60 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/images")
 public class ImageController {
-    
+
     @Autowired
     PlaceRepository placeRepository;
-    
+
     @Autowired
     ImageRepository imageRepository;
-    
+
     @Value("${place.image.save-location-path}")
     private String saveLocationPath;
-    
+
     @PostMapping("place/{id}")
-    public ResponseEntity newImage(@PathVariable long id, 
-            @RequestParam List<MultipartFile> files ){
-        
-        if(files== null)
+    public ResponseEntity newImage(@PathVariable long id,
+            @RequestParam MultipartFile file) {
+
+        if (file == null) {
             return ResponseEntity.noContent().build();
-        
-        for (MultipartFile file : files) {
-            if(!file.getContentType().contains("image"))
-                return ResponseEntity.badRequest().body("Not an Image");
         }
-        
+
         Optional<Place> placeOptional = placeRepository.findById(id);
-        if(!placeOptional.isPresent())
+        if (!placeOptional.isPresent()) {
             return ResponseEntity.notFound().build();
+        }
         Place place = placeOptional.get();
         
-        if(place.getImages() ==null)
-            place.setImages(new ArrayList<>());
+        place.setLogo(saveImage(id,file));
+        placeRepository.save(place);
+
+        return ResponseEntity.accepted().build();
+    }
+
+    private Image saveImage(long id, MultipartFile file) {
         
-        List<Image> images = place.getImages();
-                
-        String path = makePath(id, Image.ImageType.PLACE);
+        String path = makePath(id);
+        
         File directory = (new File(path));
         if (!directory.exists()) {
             directory.mkdirs();
         }
-        
-        files.forEach((file) -> {
-            try {
-                file.transferTo(new File(path + file.getOriginalFilename()));
-                Image image = new Image(file.getOriginalFilename());
-                images.add(imageRepository.save(image));
-            } catch (IOException | IllegalStateException ex) {
-                Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        place.setImages(images);
-        
-        return ResponseEntity.accepted().build();
+        try {
+            file.transferTo(new File(path + file.getOriginalFilename()));
+            Image image = new Image(file.getOriginalFilename());
+            image = imageRepository.save(image);
+            return image;
+        } catch (IOException | IllegalStateException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
-    
-    @GetMapping("{type}/{fileName}")
+
+    @GetMapping("/{fileName}")
     public ResponseEntity<byte[]> findFile(@PathVariable String fileName,
             @PathVariable() Image.ImageType type,
             @PathVariable long placeId) throws FileNotFoundException {
-        String path = makePath(placeId,type) + fileName;
+        String path = makePath(placeId) + fileName;
         try {
             return ResponseEntity.ok(Files.readAllBytes(Paths.get(path)));
         } catch (IOException ex) {
@@ -101,15 +98,13 @@ public class ImageController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-     private String makePath(long placeId, Image.ImageType type) {
+
+    private String makePath(long placeId) {
         StringBuilder sb = new StringBuilder(saveLocationPath);
-        sb.append("\\");
-        sb.append(type);
         sb.append("\\");
         sb.append(placeId);
         sb.append("\\images\\");
         return sb.toString();
     }
-    
+
 }

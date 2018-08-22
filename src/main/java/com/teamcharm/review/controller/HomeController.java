@@ -6,20 +6,31 @@
 package com.teamcharm.review.controller;
 
 import com.teamcharm.review.model.Address;
+import com.teamcharm.review.model.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.teamcharm.review.model.Member;
+import com.teamcharm.review.model.Menu;
+import com.teamcharm.review.model.MenuItem;
 import com.teamcharm.review.model.Place;
 import com.teamcharm.review.model.Review;
 import com.teamcharm.review.repository.AddressRepository;
 import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
+import com.teamcharm.review.repository.MenuItemRepository;
+import com.teamcharm.review.repository.MenuRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import com.teamcharm.review.repository.ReviewRepository;
 import com.teamcharm.review.service.PlaceService;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -29,6 +40,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -39,6 +52,12 @@ public class HomeController {
 
     @Autowired
     ReviewRepository reviewRepository;
+    
+    @Autowired
+    MenuItemRepository menuItemRepository;
+    
+    @Autowired
+    MenuRepository menuRepository;
     
     @Autowired
     PlaceService placeService;
@@ -110,6 +129,48 @@ public class HomeController {
         } else {
             return "home";
         }
+    }
+    
+    @PostMapping("/place/{id}/menu")
+    public String newMenuItem(Model model, @PathVariable long id, MenuItem menuItem, @RequestParam MultipartFile file, HttpServletRequest request) {
+        Optional<Place> option = placeRepository.findById(id);
+        if(!option.isPresent())
+            return "home";
+        Place place = option.get();
+        Menu menu = place.getMenu();
+        List<MenuItem> menuItems = menu.getItems();
+        
+        menuItem.setImage(saveImage(id,request.getContextPath(), file));
+        menuItem.setMenu(menu);
+        menuItemRepository.save(menuItem);
+        
+        menuItems.add(menuItem);
+        menu.setItems(menuItems);
+        menuRepository.save(menu);
+        
+        place.setMenu(menu);
+        placeRepository.save(place);
+        
+        return "redirect:/place/"+ place.getId();
+    }
+    
+    private Image saveImage(long id, String contextPath, MultipartFile file) {
+        
+        String path = makePath(id);
+        
+        File directory = (new File(path));
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        try {
+            file.transferTo(new File(path + file.getOriginalFilename()));
+            Image image = new Image(contextPath+ "/images/"+file.getOriginalFilename());
+            image = imageRepository.save(image);
+            return image;
+        } catch (IOException | IllegalStateException ex) {
+            Logger.getLogger(HomeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     @PostMapping("/place")
