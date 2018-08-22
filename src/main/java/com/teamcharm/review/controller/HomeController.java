@@ -5,12 +5,14 @@
  */
 package com.teamcharm.review.controller;
 
+import com.teamcharm.review.model.Address;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.teamcharm.review.model.Member;
 import com.teamcharm.review.model.Place;
 import com.teamcharm.review.model.Review;
+import com.teamcharm.review.repository.AddressRepository;
 import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
 import com.teamcharm.review.repository.PlaceRepository;
@@ -26,7 +28,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -44,6 +45,9 @@ public class HomeController {
 
     @Autowired
     MemberRepository memberRepository;
+    
+    @Autowired
+    AddressRepository addressRepository;
 
     @Autowired
     PlaceRepository placeRepository;
@@ -109,15 +113,17 @@ public class HomeController {
     }
     
     @PostMapping("/place")
-    public String place(Place place) {
+    public String place(Place place, Address address) {
+        address = addressRepository.save(address);
+        place.setAddress(address);
         placeService.newPlace(place);
-        return "home";
+        return "redirect:/place/" + place.getId();
     }
     
-    @DeleteMapping("/place")
+    @PostMapping("/place/delete")
     public String place(long id) {
         placeService.deletePlace(id);
-        return "home";
+        return "redirect:/home";
     }
     
     

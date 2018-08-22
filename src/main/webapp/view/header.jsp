@@ -120,10 +120,12 @@
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <a href="#" onclick="$('#logout').submit()" class="badge badge-light">로그아웃</a>
                         </form>
-                            <!-- 운영 관리 모달 -->
-                        <a href="#" class="badge badge-light" data-toggle="modal"data-target="#adminModal">
-                            ADMIN
-                        </a>
+                        <!-- 운영 관리 모달 -->
+                        <sec:authorize access="hasAuthority('ADMIN')">
+                            <a href="#" class="badge badge-light" data-toggle="modal"data-target="#adminModal">
+                                ADMIN
+                            </a>
+                        </sec:authorize>
                         <div class="modal fade" id="adminModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -145,7 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                            <!-- 가게 등록하기 모달 -->
+                        <!-- 가게 등록하기 모달 -->
                         <div class="modal fade" id="newPlace">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -156,7 +158,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        
+
                                         <form action="${contextPath}/place" method="post" name="newPlaceForm">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="text" name="name" class="form-control mb-2" placeholder=" 새 가게 이름" requried/>
@@ -185,7 +187,7 @@
                                 </div>
                             </div>
                         </div>
-                                            <!-- 가게 삭제하기 모달 -->
+                        <!-- 가게 삭제하기 모달 -->
                         <div class="modal fade" id="deletePlace">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -196,10 +198,14 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <input class="form-control" type="text" name="id"/>
+                                        <form action="${contextPath}/place/delete" method="post" name="deletePlace">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input class="form-control" type="text" name="id"/>
+                                        </form>
+                                        
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-success">삭제하기</button>
+                                        <button class="btn btn-success" onclick="deletePlace.submit()">삭제하기</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
                                     </div>
                                 </div>
