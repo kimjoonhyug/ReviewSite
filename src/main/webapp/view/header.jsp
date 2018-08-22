@@ -119,7 +119,89 @@
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <a href="#" onclick="$('#logout').submit()" class="badge badge-light">로그아웃</a>
                         </form>
+                            <!-- 운영 관리 모달 -->
+                        <a href="#" class="badge badge-light" data-toggle="modal"data-target="#adminModal">
+                            ADMIN
+                        </a>
+                        <div class="modal fade" id="adminModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">운영 관리</h4>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            &times;
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <button class="btn" data-toggle="modal"data-target="#newPlace">가게 등록</button>
 
+                                        <button class="btn" data-toggle="modal"data-target="#deletePlace">가게 삭제</button>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- 가게 등록하기 모달 -->
+                        <div class="modal fade" id="newPlace">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">가게 등록</h4>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            &times;
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/register" method="post" name="regform">
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <input type="text" name="name" class="form-control mb-2" placeholder=" 새 가게 이름" requried/>
+                                            <input type="text" name="franchise_name" class="form-control mb-2" placeholder=" 프랜차이즈 이름" />
+                                            <select multiple class="form-control" name="type">
+                                                <option>한식</option>
+                                                <option>양식</option>
+                                                <option>중식</option>
+                                                <option>치킨</option>
+                                                <option>족발보쌈</option>
+                                                <option>일식</option>
+                                                <option>야식</option>
+                                                <option>분식</option>
+                                                <option>프랜차이즈</option>
+                                                <option>디저트</option>
+                                            </select><br>
+                                            <input type="text" name="phone" class="form-control mb-2" placeholder=" 전화번호 ex)000-0000-0000" required/>
+                                            <input type="text" name="hours" class="form-control mb-2" placeholder=" 영업시간 ex)09:00 - 20:00" required/>
+                                            <input type="text" name="address" class="form-control" placeholder=" 주소" required/>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                            <!-- 가게 삭제하기 모달 -->
+                        <div class="modal fade" id="deletePlace">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">삭제할 가게 id를 입력하세요</h4>
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            &times;
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input class="form-control" type="text" name="id"/>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success">삭제하기</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </sec:authorize>
                 </div>
 
@@ -149,12 +231,11 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="/kind/한식">한식</a>
-                                <a class="dropdown-item" href="/kind/피자">피자</a>
-                                <a class="dropdown-item" href="/kind/양식">양식</a>
+                                <a class="dropdown-item" href="/kind/피자양식">양식</a>
                                 <a class="dropdown-item" href="/kind/중식">중식</a>
                                 <a class="dropdown-item" href="/kind/치킨">치킨</a>
                                 <a class="dropdown-item" href="/kind/족발보쌈">족발보쌈</a>
-                                <a class="dropdown-item" href="/kind/일식">일식</a>
+                                <a class="dropdown-item" href="/kind/일식돈까스">일식</a>
                                 <a class="dropdown-item" href="/kind/야식">야식</a>
                                 <a class="dropdown-item" href="/kind/분식">분식</a>
                                 <a class="dropdown-item" href="/kind/프랜차이즈">프랜차이즈</a>
