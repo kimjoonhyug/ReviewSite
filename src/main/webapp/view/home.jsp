@@ -32,7 +32,7 @@
                 </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="resources/images/t1.jpg" style="width:1100; height:500;"/>
+                        <a href="#"><img src="resources/images/bingsu.jpg" style="width:1100; height:500;"/></a>
                     </div>
                     <div class="carousel-item">
                         <img src="resources/images/t2.jpg" style="width:1100; height:500;"/>
@@ -50,12 +50,12 @@
             </div>
             <div id="recommend" class="mt-5"">
                 <p style="padding-left:20px; font-size:1.6em;"><i><b><span style="color: crimson">오늘의</span></b> 추천맛집</i></p>
-                <c:forEach var="today" items="${places}" varStatus="status">
+                            <c:forEach var="today" items="${places}" varStatus="status">
                     <figure>
-                        <img src="${today.logo.location}"/>
+                        <a href="${pageContext.request.contextPath}/place/${today.id}"><img src="${today.logo.location}"/></a>
                         <figcaption>${today.name}</figcaption>
                     </figure>
-                    
+                     
                 </c:forEach>
             </div>
         </body>

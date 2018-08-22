@@ -28,6 +28,7 @@
             <script src="/resources/js/nav-search.js"></script>
         </head>
         <body>
+            <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
             <div class="container">
 
                 <div style="text-align:right; margin:4px;">
@@ -155,7 +156,8 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/register" method="post" name="regform">
+                                        
+                                        <form action="${contextPath}/place" method="post" name="newPlaceForm">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <input type="text" name="name" class="form-control mb-2" placeholder=" 새 가게 이름" requried/>
                                             <input type="text" name="franchise_name" class="form-control mb-2" placeholder=" 프랜차이즈 이름" />
@@ -173,10 +175,11 @@
                                             </select><br>
                                             <input type="text" name="phone" class="form-control mb-2" placeholder=" 전화번호 ex)000-0000-0000" required/>
                                             <input type="text" name="hours" class="form-control mb-2" placeholder=" 영업시간 ex)09:00 - 20:00" required/>
-                                            <input type="text" name="address" class="form-control" placeholder=" 주소" required/>
+                                            <input type="text" name="fullAddress" class="form-control" placeholder=" 주소" required/>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" onclick="newPlaceForm.submit()">등록</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
                                     </div>
                                 </div>
