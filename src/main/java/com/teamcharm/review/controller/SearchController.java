@@ -7,7 +7,7 @@ package com.teamcharm.review.controller;
 
 import com.teamcharm.review.model.Place;
 import com.teamcharm.review.repository.PlaceRepository;
-import com.teamcharm.review.service.PlaceService;
+import com.teamcharm.review.service.PlaceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +30,7 @@ public class SearchController {
     PlaceRepository placeRepository;
     
     @Autowired
-    PlaceService placeService;
+    PlaceServiceImpl placeService;
     
     @ResponseBody
     @GetMapping("/map")

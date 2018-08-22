@@ -15,6 +15,7 @@ import com.teamcharm.review.repository.ImageRepository;
 import com.teamcharm.review.repository.MemberRepository;
 import com.teamcharm.review.repository.PlaceRepository;
 import com.teamcharm.review.repository.ReviewRepository;
+import com.teamcharm.review.service.PlaceService;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -37,6 +38,9 @@ public class HomeController {
 
     @Autowired
     ReviewRepository reviewRepository;
+    
+    @Autowired
+    PlaceService placeService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -106,9 +110,17 @@ public class HomeController {
     
     @PostMapping("/place")
     public String place(Place place) {
-        //TODO save place
+        placeService.newPlace(place);
         return "home";
     }
+    
+    @DeleteMapping("/place")
+    public String place(long id) {
+        placeService.deletePlace(id);
+        return "home";
+    }
+    
+    
 
     @GetMapping("/kind/{type}")
     public String kind(@PathVariable String type, Pageable page, Model model) {
