@@ -65,7 +65,7 @@ public class ImageController {
     }
 
 
-    @GetMapping("/{fileName}")
+    @GetMapping("/{placeId}/{fileName}")
     public ResponseEntity<byte[]> findFile(@PathVariable String fileName,
             @PathVariable long placeId) throws FileNotFoundException {
         String path = imageService.makePath(placeId) + fileName;

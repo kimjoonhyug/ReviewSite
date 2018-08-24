@@ -40,7 +40,7 @@ public class ImageService {
         }
         try {
             file.transferTo(new File(path + file.getOriginalFilename()));
-            Image image = new Image(contextPath + "/images/" + file.getOriginalFilename());
+            Image image = new Image(contextPath + "/" + id + "/images/" + file.getOriginalFilename());
             image = imageRepository.save(image);
             return image;
         } catch (IOException | IllegalStateException ex) {
