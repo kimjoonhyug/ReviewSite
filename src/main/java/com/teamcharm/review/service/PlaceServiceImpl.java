@@ -7,16 +7,25 @@ package com.teamcharm.review.service;
 
 import com.teamcharm.review.controller.HomeController;
 import com.teamcharm.review.model.Image;
+import com.teamcharm.review.model.Member;
+import com.teamcharm.review.model.Menu;
+import com.teamcharm.review.model.MenuItem;
 import com.teamcharm.review.model.Place;
+import com.teamcharm.review.model.Review;
 import com.teamcharm.review.repository.ImageRepository;
+import com.teamcharm.review.repository.MenuItemRepository;
+import com.teamcharm.review.repository.MenuRepository;
 import com.teamcharm.review.repository.PlaceRepository;
+import com.teamcharm.review.repository.ReviewRepository;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +45,18 @@ public class PlaceServiceImpl implements PlaceService {
     
     @Autowired
     ImageRepository imageRepository;
+    
+    @Autowired
+    private ImageService imageService;
+    
+    @Autowired
+    MenuItemRepository menuItemRepository;
+    
+    @Autowired
+    MenuRepository menuRepository;
+    
+    @Autowired
+    ReviewRepository reviewRepository;
     
     @Override
     public ResponseEntity addImage(long id, List<MultipartFile> files, String path) {
@@ -83,6 +104,44 @@ public class PlaceServiceImpl implements PlaceService {
     public void deletePlace(long id) {
         placeRepository.deleteById(id);
     }    
+
+    @Override
+    public boolean newMenuItem(long id, MenuItem menuItem, MultipartFile file, HttpServletRequest request) {
+        Optional<Place> option = placeRepository.findById(id);
+        if(!option.isPresent())
+            return false;
+        Place place = option.get();
+        Menu menu = place.getMenu();
+        List<MenuItem> menuItems = menu.getItems();
+        
+        menuItem.setImage(imageService.saveImage(id,request.getContextPath(), file));
+        menuItem.setMenu(menu);
+        menuItemRepository.save(menuItem);
+        
+        menuItems.add(menuItem);
+        menu.setItems(menuItems);
+        menuRepository.save(menu);
+        
+        place.setMenu(menu);
+        placeRepository.save(place);
+        
+        return true;
+        
+    }
     
+    @Override
+    public boolean newReview(long id, Member member, Review review) {
+        Optional<Place> option = placeRepository.findById(id);
+        if (!option.isPresent())
+            return false;
+        
+        review.setReviewDate(LocalDateTime.now());
+        review.setReviewer(member);
+        review.setPlace(option.get());
+        reviewRepository.save(review);
+        
+        return true;
+    }
+        
     
 }

@@ -5,8 +5,12 @@
  */
 package com.teamcharm.review.service;
 
+import com.teamcharm.review.model.Member;
+import com.teamcharm.review.model.MenuItem;
 import com.teamcharm.review.model.Place;
+import com.teamcharm.review.model.Review;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -28,5 +32,9 @@ public interface PlaceService {
     
     @PreAuthorize(value = "hasAuthority('ADMIN')")
     void newPlace(Place place);
+    
+    boolean newMenuItem(long id, MenuItem item, MultipartFile file, HttpServletRequest request);
+    
+    boolean newReview(long id, Member member, Review review);
     
 }
