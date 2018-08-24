@@ -115,6 +115,8 @@ public class HomeController {
     public String place(Place place, Address address, MultipartFile file, HttpServletRequest request) {
         address = addressRepository.save(address);
         place.setAddress(address);
+        place = placeService.newPlace(place);
+        
         if(file != null)
             place.setLogo(imageService.saveImage(place.getId(),request.getContextPath(), file));
         placeService.newPlace(place);

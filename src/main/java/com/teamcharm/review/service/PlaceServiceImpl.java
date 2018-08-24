@@ -96,8 +96,8 @@ public class PlaceServiceImpl implements PlaceService {
     }
     
     @Override
-    public void newPlace(Place place) {
-        placeRepository.save(place);
+    public Place newPlace(Place place) {
+        return placeRepository.save(place);
     }
     
     @Override

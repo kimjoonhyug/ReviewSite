@@ -31,7 +31,7 @@ public interface PlaceService {
     Page<Place> generalSearch(String search, Pageable page);
     
     @PreAuthorize(value = "hasAuthority('ADMIN')")
-    void newPlace(Place place);
+    Place newPlace(Place place);
     
     boolean newMenuItem(long id, MenuItem item, MultipartFile file, HttpServletRequest request);
     
