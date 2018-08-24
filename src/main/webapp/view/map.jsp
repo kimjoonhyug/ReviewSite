@@ -15,7 +15,7 @@
         <title>JSP Page</title>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9da8e5437bc7e9b1c025282c2d5a4ea&libraries=services"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="/resources/js/MapSearch.js"></script>
+        <script src="${contextPath}/resources/js/MapSearch.js"></script>
         <script>
             $(document).ready(function () {
                 getLocation();
@@ -38,14 +38,18 @@
             <div class='row'>
                 <div class='col-lg-5' id="map"></div>  
                 <div class='offset-lg-1 col-lg-5' id="results">
+
                 </div>
             </div>
-            <button class="btn btn-success" id="mapbutton" onclick="searchByMap(0)">Search Map</button>
-            <div id="address"></div>
-            <nav aria-label="Page navigation example" id="mapPlace">
+            <div class="row mb-2">
+            <button class="btn btn-success offset-md-4" id="mapbutton" onclick="searchByMap(0)">Search Map</button>
+            
+            <div id="mapPlace" class="offset-md-2">
                 <ul id="pagination-ul" class="pagination">
                 </ul>
-            </nav>
+            </div>
+            </div>
+            <div id="address"></div>
         </div>
     </body>
 </html>

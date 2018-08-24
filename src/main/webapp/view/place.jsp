@@ -88,7 +88,7 @@
                                 <a href="#" onclick="deleteReview.submit();" class="badge badge-light">
                                      ×
                                 </a>
-                                <form action="/review/delete" method="post" id="deleteReview">
+                                <form action="${contextPath}/review/delete" method="post" id="deleteReview">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                     <input type="hidden" value="${review.id}"/>
                                 </form>
@@ -101,7 +101,7 @@
             </table>
         </div>
         <div class="reply-form col-s-12 col-md-8 offset-md-2">
-            <form action="/new" method="post" name="replyForm">
+            <form action="${contextPath}/new" method="post" name="replyForm">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type='hidden' name='placeId' value='${place.id}'/>
                 <div class="row">
