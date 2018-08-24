@@ -21,7 +21,7 @@
         <h4 id="searchResult"><b><span style="color:brown">${type}</span></b>으로 검색한 결과</h4>
     <c:forEach var="place" items="${places}">
         <figure class="kindImage">
-            <a href="${pageContext.request.contextPath}/place/${place.id}"><img src="${place.logo.location}" alt="${place.name}"/></a>
+            <a href="${pageContext.request.contextPath}/place/${place.id}"><img src="${place.logo.location}" width="200" height="200" alt="${place.name}"/></a>
             <figcaption>
                 <a href="${pageContext.request.contextPath}/place/${place.id}">
                     ${place.name}<br><span style="color:gold;">★</span><f:formatNumber value= "${place.rating}" maxFractionDigits="1"/>

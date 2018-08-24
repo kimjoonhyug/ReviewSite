@@ -87,7 +87,7 @@ public class HomeController {
     @PostMapping("/register")
     public String register(Member member) {
         memberService.saveMember(member);
-        return "redirect:/login";
+        return "redirect:/home";
     }
 
     @GetMapping("/place/{id}")

@@ -35,7 +35,7 @@
                         <a href="#"><img src="resources/images/bingsu.jpg" style="width:1100; height:500;"/></a>
                     </div>
                     <div class="carousel-item">
-                        <img src="resources/images/t2.jpg" style="width:1100; height:500;"/>
+                        <a href="#"><img src="resources/images/coupon.png" style="width:1100; height:500;"/></a>
                     </div>
                     <div class="carousel-item">
                         <img src="resources/images/t3.jpg" style="width:1100; height:500;"/>

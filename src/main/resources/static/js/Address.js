@@ -18,8 +18,8 @@ function callback(result, status) {
     if (status === daum.maps.services.Status.OK) {
         //TODO set data into lat,lng input
         console.log(result);
-        $('#lat').val(result.documents[0].road_address.y);
-        $('#lng').val(result.documents[0].road_address.x);
+        $('#lat').val(result[0].road_address.y);
+        $('#lng').val(result[0].road_address.x);
     }
 }
 

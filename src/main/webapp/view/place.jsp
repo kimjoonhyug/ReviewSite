@@ -82,8 +82,19 @@
                 <c:forEach var="review" items="${place.reviews}" varStatus="status">
                     <tr>
                         <td class="reviewMem"><span class="review-background">${review.reviewer.username}</span></td>
-                        <td class="reviewContent">${review.content}</td>
-                        <td class="reviewRating"><span class="review-background">${review.rating}</span></td>
+                        <td class="reviewContent">
+                            ${review.content}&nbsp;&nbsp;
+                            <sec:authorize access="hasAuthority('ADMIN')">
+                                <a href="#" onclick="deleteReview.submit();" class="badge badge-light">
+                                     ×
+                                </a>
+                                <form action="/review/delete" method="post" id="deleteReview">
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <input type="hidden" value="${review.id}"/>
+                                </form>
+                            </sec:authorize>
+                        </td>
+                        <td class="reviewRating"><span class="review-background2">${review.rating}</span></td>
                         <td>${review.reviewDate}</td>
                     </tr>
                 </c:forEach>
